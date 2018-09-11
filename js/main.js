@@ -41,5 +41,25 @@ scene.add(plain);
 scene.add(cube);
 cube.position.y = 1;
 
-
 renderer.render(scene, camera);
+
+var xSpeed = 0.1;
+var ySpeed = 0.1;
+
+document.addEventListener("keydown", onDocumentKeyDown, false);
+function onDocumentKeyDown(event) {
+    var keyCode = event.which;
+
+    if (keyCode == 38) { // up
+        cube.position.y += ySpeed;
+    } else if (keyCode == 40) { // down
+        cube.position.y -= ySpeed;
+    } else if (keyCode == 37) { // links
+        cube.position.x -= xSpeed;
+    } else if (keyCode == 39) { // rechts
+        cube.position.x += xSpeed;
+    } else if (keyCode == 32) {
+        cube.position.set(0, 0, 0);
+    }
+    renderer.render(scene, camera);
+};
