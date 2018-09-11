@@ -26,12 +26,12 @@ scene.add(ambient);
 //////////////////////////////////////////
 // create plain
 let geometryPlain = new THREE.BoxGeometry(5, 0.5, 5);
-let materialPlain = new THREE.MeshNormalMaterial();
+let materialPlain = new THREE.MeshPhongMaterial({ color: 0x808080 });
 let plain = new THREE.Mesh(geometryPlain, materialPlain);
 plain.receiveShadow = true;
 // create player cube
 let geometryCube = new THREE.BoxGeometry(1, 1, 1);
-let materialCube = new THREE.MeshNormalMaterial();
+let materialCube = new THREE.MeshPhongMaterial({ color: 0x222222 });
 let cube = new THREE.Mesh(geometryCube, materialCube);
 cube.receiveShadow = true;
 cube.castShadow = true;
