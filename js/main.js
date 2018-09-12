@@ -29,37 +29,59 @@ let geometryPlain = new THREE.BoxGeometry(5, 0.5, 5);
 let materialPlain = new THREE.MeshPhongMaterial({ color: 0x808080 });
 let plain = new THREE.Mesh(geometryPlain, materialPlain);
 plain.receiveShadow = true;
-// create player cube
-let geometryCube = new THREE.BoxGeometry(1, 1, 1);
-let materialCube = new THREE.MeshPhongMaterial({ color: 0x222222 });
-let cube = new THREE.Mesh(geometryCube, materialCube);
-cube.receiveShadow = true;
-cube.castShadow = true;
-
-
 scene.add(plain);
-scene.add(cube);
-cube.position.y = 1;
+// create player
+let bottomGeometry = new THREE.SphereGeometry(0.49, 16, 16);
+let bottomMaterial = new THREE.MeshLambertMaterial( {color: 0x333333} );
+let bottom = new THREE.Mesh(bottomGeometry, bottomMaterial);
+bottom.receiveShadow = true;
+bottom.castShadow = true;
+scene.add(bottom);
+bottom.position.y = 1;
+
+let cylGeometry = new THREE.CylinderGeometry(0.2, 0.5, 1, 32, 1, false);
+let cylMaterial = new THREE.MeshLambertMaterial( {color: 0x333333} );
+let cyl = new THREE.Mesh(cylGeometry, cylMaterial);
+cyl.receiveShadow = true;
+cyl.castShadow = true;
+scene.add(cyl);
+cyl.position.y = 1.5;
+
+let ballGeometry = new THREE.SphereGeometry(0.4, 16, 16);
+let ballMaterial = new THREE.MeshLambertMaterial( {color: 0x333333} );
+let ball = new THREE.Mesh(ballGeometry, ballMaterial);
+ball.receiveShadow = true;
+ball.castShadow = true;
+scene.add(ball);
+ball.position.y = 2.5;
 
 renderer.render(scene, camera);
 
-var xSpeed = 0.1;
-var ySpeed = 0.1;
-
+var moveDistance = 0.08;
 document.addEventListener("keydown", onDocumentKeyDown, false);
 function onDocumentKeyDown(event) {
     var keyCode = event.which;
 
     if (keyCode == 38) { // up
-        cube.position.y += ySpeed;
+        cyl.position.y += moveDistance;
+				ball.position.y += moveDistance;
+				bottom.position.y += moveDistance;
     } else if (keyCode == 40) { // down
-        cube.position.y -= ySpeed;
+        cyl.position.y -= moveDistance;
+				ball.position.y -= moveDistance;
+				bottom.position.y -= moveDistance;
     } else if (keyCode == 37) { // links
-        cube.position.x -= xSpeed;
+        cyl.position.x -= moveDistance;
+				ball.position.x -= moveDistance;
+				bottom.position.x -= moveDistance;
     } else if (keyCode == 39) { // rechts
-        cube.position.x += xSpeed;
+        cyl.position.x += moveDistance;
+				ball.position.x += moveDistance;
+				bottom.position.x += moveDistance;
     } else if (keyCode == 32) {
-        cube.position.set(0, 0, 0);
+        cyl.position.set(0, 1.5, 0);
+				ball.position.set(0, 2.5, 0);
+				bottom.position.set(0, 1, 0);
     }
     renderer.render(scene, camera);
 };
