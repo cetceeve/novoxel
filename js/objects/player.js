@@ -3,7 +3,6 @@ function getPlayer() {
   let bottomMaterial = new THREE.MeshLambertMaterial({
     color: 0x333333
   });
-
   let bottom = new THREE.Mesh(bottomGeometry, bottomMaterial);
   bottom.receiveShadow = true;
   bottom.castShadow = true;
@@ -13,7 +12,6 @@ function getPlayer() {
   let cylMaterial = new THREE.MeshLambertMaterial({
     color: 0x333333
   });
-
   let cyl = new THREE.Mesh(cylGeometry, cylMaterial);
   cyl.receiveShadow = true;
   cyl.castShadow = true;
@@ -23,7 +21,6 @@ function getPlayer() {
   let ballMaterial = new THREE.MeshLambertMaterial({
     color: 0x333333
   });
-
   let ball = new THREE.Mesh(ballGeometry, ballMaterial);
   ball.receiveShadow = true;
   ball.castShadow = true;
