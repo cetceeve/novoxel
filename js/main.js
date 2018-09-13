@@ -6,7 +6,7 @@ camera.position.y = 10;
 camera.position.x = -5;
 camera.lookAt(scene.position);
 
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.shadowMap.enabled = true;
 renderer.shadowMapSoft = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
