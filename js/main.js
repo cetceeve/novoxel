@@ -35,14 +35,16 @@ let rotateHori = 0,
 scene.add(player);
 scene.add(ambientLight);
 scene.add(pointLight);
-scene.add(tower);
 
-let arrayA = [[1,0,1,0,1,0,1,0],[0,1,0,1,0,1,0,1]];
+
+let arrayA = [[1,0,1,0,1,0,1,0],[0,1,0,1,0,1,0,1]],
+    obstacles = new THREE.Group();
 createObstacles(arrayA, 'a');
 createObstacles(arrayA, 'b');
 createObstacles(arrayA, 'c');
 createObstacles(arrayA, 'd');
-
+tower.add(obstacles);
+scene.add(tower);
 ////////////////////////////////////
 // animation
 var animate = function() {
@@ -72,13 +74,13 @@ function updatePlayer() {
 
   // Hitdetection
   let raycasterY = new THREE.Raycaster(player.position.clone(), new THREE.Vector3(0, -gravity, 0).normalize());
-  let collisionResultsY = raycasterY.intersectObjects(scene.children);
+  let collisionResultsY = raycasterY.intersectObjects(scene.children[3].children, true);
   if (collisionResultsY.length > 0 && collisionResultsY[0].distance < 0.5) {
     gravityDistance = 0;
   }
   if (playerMovementVector.Z !== 0 && playerMovementVector.X !== 0) {
     let raycasterXZ = new THREE.Raycaster(player.position.clone(), playerMovementVector);
-    let collisionResultsXY = raycasterXZ.intersectObjects(scene.children);
+    let collisionResultsXY = raycasterXZ.intersectObjects(scene.children[3].children, true);
     if (collisionResultsXY.length > 0 && collisionResultsXY[0].distance < 0.5) {
       moveDistance = 0;
     }
@@ -191,20 +193,20 @@ function createObstacles(array, seite){
         let obstacle = selectCube(array[i][j]);
         switch (seite) {
           case 'a':
-            obstacle.position.z = 20;
-            obstacle.position.x = j*2.5;
+            obstacle.position.z = 12.5;//20;
+            obstacle.position.x = -7.5+j*2.5;
             break;
           case 'b':
-            obstacle.position.z = 17.5-j*2.5;
-            obstacle.position.x = 20;
+            obstacle.position.z = 7.5-j*2.5;
+            obstacle.position.x = 12.5;
             break;
           case 'c':
-            obstacle.position.z = -2.5;
-            obstacle.position.x = 17.5-j*2.5;
+            obstacle.position.z = -12.5;
+            obstacle.position.x = 7.5-j*2.5;
             break;
           case 'd':
-            obstacle.position.z = j*2.5;
-            obstacle.position.x = -2.5;
+            obstacle.position.z = -7.5+j*2.5;
+            obstacle.position.x = -12.5;
             break;
           default:
             break;
@@ -212,7 +214,7 @@ function createObstacles(array, seite){
         }
         obstacle.position.y = i*2.5-1;
 
-        scene.add(obstacle);
+        obstacles.add(obstacle);
       }else{
         continue;
       }

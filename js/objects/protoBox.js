@@ -1,5 +1,5 @@
 function getProtoBox() {
-  let geometryPlain = new THREE.BoxGeometry(2.5, 0.5, 2.5);
+  let geometryPlain = new THREE.BoxBufferGeometry(2.5, 0.5, 2.5);
   let materialPlain = new THREE.MeshPhongMaterial({
     color: 0x808080
   });
@@ -11,9 +11,9 @@ function getProtoBox() {
 function createTower(h){
   let bricks = new THREE.Group();
   for (let k = 0; k < h; k++){
-    for(let i = 0; i < 8; i++){
-      for (let j = 0; j < 8; j++){
-        if((j===0 || j===7) || (i===0 || i===7)) {
+    for(let i = -4; i <= 4; i++){
+      for (let j = -4; j <=4; j++){
+        if((j===-4 || j===4) || (i===-4 || i===4)) {
         bricks.add(createBrick(2.5 * i, 2.5 * k, 2.5 * j));
       }
       }
