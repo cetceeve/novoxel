@@ -1,38 +1,54 @@
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 7;
-camera.position.y = 3.5;
+let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 35;
+camera.position.y = 10;
+camera.position.x = -5;
 camera.lookAt(scene.position);
 
 const renderer = new THREE.WebGLRenderer();
 renderer.shadowMap.enabled = true;
 renderer.shadowMapSoft = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(window.innerWidth * 0.8, window.innerHeight * 0.8);
 document.body.appendChild(renderer.domElement);
 const clock = new THREE.Clock();
 
 /////////////////////////////////////
 // Objects
-let playerMoveAway, playerMoveToward, playerMoveLeft, playerMoveRight, spacePressed, gravityDistance;
+let playerMoveAway, playerMoveToward, playerMoveLeft, playerMoveRight, gravityDistance;
 let movementSpeed = 2;
 let gravity = 5;
-let protoBox = getProtoBox();
+let tower = createTower(5);
+//let protoBox = getProtoBox();
 let player = getPlayer();
+player.position.y = 10;
 let pointLight = getPointLight(camera);
 let ambientLight = getAmbientLight();
 let collide = false;
 
-scene.add(protoBox);
+let rotateHori = 0,
+    rotateVert = 0,
+    rotateSpeed = 0.05;
+
+
+//scene.add(protoBox);
 scene.add(player);
 scene.add(ambientLight);
 scene.add(pointLight);
+scene.add(tower);
+
+let arrayA = [[1,0,1,0,1,0,1,0],[0,1,0,1,0,1,0,1]];
+createObstacles(arrayA, 'a');
+createObstacles(arrayA, 'b');
+createObstacles(arrayA, 'c');
+createObstacles(arrayA, 'd');
 
 ////////////////////////////////////
 // animation
 var animate = function() {
   requestAnimationFrame(animate);
   updatePlayer();
+  updateCamera();
   renderer.render(scene, camera);
 };
 animate();
@@ -42,11 +58,30 @@ function updatePlayer() {
   let moveDistance = movementSpeed * clockSpeed;
   gravityDistance = gravity * clockSpeed;
 
+  // movement direction
+  let playerMovementVector = new THREE.Vector3(0, 0, 0);
+  if (playerMoveAway) {
+    playerMovementVector.setZ(-1);
+  } else if (playerMoveToward) {
+    playerMovementVector.setZ(1);
+  } else if (playerMoveLeft) {
+    playerMovementVector.setX(-1);
+  } else if (playerMoveRight) {
+    playerMovementVector.setX(1);
+  }
+
   // Hitdetection
-  let ray = new THREE.Raycaster(player.position.clone(), new THREE.Vector3(0, -1, 0));
-  let collisionResults = ray.intersectObjects(scene.children);
-  if (collisionResults.length > 0 && collisionResults[0].distance < gravityDistance * 2) {
+  let raycasterY = new THREE.Raycaster(player.position.clone(), new THREE.Vector3(0, -gravity, 0).normalize());
+  let collisionResultsY = raycasterY.intersectObjects(scene.children);
+  if (collisionResultsY.length > 0 && collisionResultsY[0].distance < 0.5) {
     gravityDistance = 0;
+  }
+  if (playerMovementVector.Z !== 0 && playerMovementVector.X !== 0) {
+    let raycasterXZ = new THREE.Raycaster(player.position.clone(), playerMovementVector);
+    let collisionResultsXY = raycasterXZ.intersectObjects(scene.children);
+    if (collisionResultsXY.length > 0 && collisionResultsXY[0].distance < 0.5) {
+      moveDistance = 0;
+    }
   }
 
   // movement
@@ -81,6 +116,23 @@ function updatePlayer() {
   // }
 }
 
+function updateCamera() {
+  if(rotateHori || rotateVert) {
+  let pos = camera.position.clone(),
+      horAxis = pos.clone();
+      horAxis.applyAxisAngle(new THREE.Vector3(0,1,0),1.5708);
+      horAxis.y = 0;
+      horAxis.normalize();
+      console.log("vert: " + rotateVert)
+      console.log("hori: " + rotateHori)
+
+      pos.applyAxisAngle(horAxis, rotateHori);
+      pos.applyAxisAngle(new THREE.Vector3(0,1,0), rotateVert);
+      camera.position.copy(pos);
+      camera.lookAt(new THREE.Vector3(0,0,0));
+    }
+}
+
 /////////////////////////////////////
 // Input
 document.addEventListener("keydown", event => {
@@ -95,7 +147,14 @@ document.addEventListener("keydown", event => {
     playerMoveRight = true;
   } else if (keyCode == 32) {
     gravity = -5;
-    spacePressed = true;
+  } else if (keyCode === 65) {
+    rotateVert = -rotateSpeed;
+  } else if (keyCode === 68){
+    rotateVert = rotateSpeed;
+  } else if(keyCode === 87) {
+    rotateHori = -rotateSpeed;
+  } else if(keyCode === 83) {
+    rotateHori = rotateSpeed;
   }
 }, false);
 
@@ -110,6 +169,62 @@ document.addEventListener("keyup", event => {
   } else if (keyCode == 39) { // rechts
     playerMoveRight = false;
   } else if (keyCode == 32) {
-    spacePressed = false;
+    // spacePressed = false;
+  }else if (keyCode === 65) {
+    rotateVert = 0;
+  } else if (keyCode === 68){
+    rotateVert = 0;
+  } else if(keyCode === 87) {
+    rotateHori = 0;
+  } else if(keyCode === 83) {
+    rotateHori = 0;
   }
 }, false);
+
+///////////////////////////////////////////////
+// Obstacles
+
+function createObstacles(array, seite){
+  for (let i = 0; i < array.length; i++){
+    for (let j = 0; j < array[0].length; j++){
+      if(array[i][j]!== 0){
+        let obstacle = selectCube(array[i][j]);
+        switch (seite) {
+          case 'a':
+            obstacle.position.z = 20;
+            obstacle.position.x = j*2.5;
+            break;
+          case 'b':
+            obstacle.position.z = 17.5-j*2.5;
+            obstacle.position.x = 20;
+            break;
+          case 'c':
+            obstacle.position.z = -2.5;
+            obstacle.position.x = 17.5-j*2.5;
+            break;
+          case 'd':
+            obstacle.position.z = j*2.5;
+            obstacle.position.x = -2.5;
+            break;
+          default:
+            break;
+
+        }
+        obstacle.position.y = i*2.5-1;
+
+        scene.add(obstacle);
+      }else{
+        continue;
+      }
+    }
+  }
+}
+
+function selectCube(n){
+  switch(n){
+    case 1:
+      return getProtoBox();
+    break;
+    default: break;
+  }
+}

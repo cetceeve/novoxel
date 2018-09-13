@@ -6,7 +6,6 @@ function getPlayer() {
   let bottom = new THREE.Mesh(bottomGeometry, bottomMaterial);
   bottom.receiveShadow = true;
   bottom.castShadow = true;
-  bottom.position.y = 0.7;
 
   let cylGeometry = new THREE.CylinderGeometry(0.2, 0.5, 1, 32, 1, false);
   let cylMaterial = new THREE.MeshLambertMaterial({
@@ -15,7 +14,7 @@ function getPlayer() {
   let cyl = new THREE.Mesh(cylGeometry, cylMaterial);
   cyl.receiveShadow = true;
   cyl.castShadow = true;
-  cyl.position.y = 1.2;
+  cyl.position.y = 0.5;
 
   let ballGeometry = new THREE.SphereGeometry(0.4, 16, 16);
   let ballMaterial = new THREE.MeshLambertMaterial({
@@ -24,7 +23,7 @@ function getPlayer() {
   let ball = new THREE.Mesh(ballGeometry, ballMaterial);
   ball.receiveShadow = true;
   ball.castShadow = true;
-  ball.position.y = 2.2;
+  ball.position.y = 1.5;
 
   let player = new THREE.Group();
   player.add(cyl);
