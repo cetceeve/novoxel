@@ -1,10 +1,11 @@
 function getProtoBox() {
   let geometryPlain = new THREE.BoxBufferGeometry(2.5, 0.5, 2.5);
   let materialPlain = new THREE.MeshPhongMaterial({
-    color: 0x808080
+    color: 0x424242
   });
   let protoBox = new THREE.Mesh(geometryPlain, materialPlain);
   protoBox.receiveShadow = true;
+  protoBox.castShadow = true;
   return protoBox;
 }
 
@@ -24,7 +25,7 @@ function createTower(h){
 
 function createBrick(x, y, z){
   let geometryBrick = new THREE.BoxBufferGeometry(2.5, 2.5, 2.5);
-  let materialBrick = new THREE.MeshPhongMaterial( {color: 0x222222} );
+  let materialBrick = new THREE.MeshPhongMaterial( {color: 0x404040} );
   let brick = new THREE.Mesh(geometryBrick, materialBrick);
   /*let edges = new THREE.EdgesGeometry(geometry);
   let line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({color: 0xffffff}));*/

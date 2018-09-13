@@ -1,6 +1,7 @@
 const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2( 0xcccccc, 0.02 );
 let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 35;
+camera.position.z = 30;
 camera.position.y = 10;
 camera.position.x = -5;
 camera.lookAt(scene.position);
@@ -19,10 +20,10 @@ let playerMoveAway, playerMoveToward, playerMoveLeft, playerMoveRight, gravityDi
 let movementSpeed = 2;
 let gravity = 5;
 let tower = createTower(5);
-//let protoBox = getProtoBox();
 let player = getPlayer();
 player.position.y = 10;
-let pointLight = getPointLight(camera);
+let directionalLight = getDirectionalLights();
+let hemisphereLight = getHemisphereLight();
 let ambientLight = getAmbientLight();
 let collide = false;
 
@@ -31,20 +32,26 @@ let rotateHori = 0,
     rotateSpeed = 0.05;
 
 
-//scene.add(protoBox);
-scene.add(player);
-scene.add(ambientLight);
-scene.add(pointLight);
-
-
 let arrayA = [[1,0,1,0,1,0,1,0],[0,1,0,1,0,1,0,1]],
     obstacles = new THREE.Group();
 createObstacles(arrayA, 'a');
 createObstacles(arrayA, 'b');
 createObstacles(arrayA, 'c');
 createObstacles(arrayA, 'd');
+
+tower.castShadow = true;
+tower.receiveShadow = true;
+obstacles.castShadow = true;
+obstacles.receiveShadow = true;
+
+
+scene.add(player);
+scene.add(hemisphereLight);
+scene.add(ambientLight);
+scene.add(directionalLight);
 tower.add(obstacles);
 scene.add(tower);
+
 ////////////////////////////////////
 // animation
 var animate = function() {
@@ -74,13 +81,13 @@ function updatePlayer() {
 
   // Hitdetection
   let raycasterY = new THREE.Raycaster(player.position.clone(), new THREE.Vector3(0, -gravity, 0).normalize());
-  let collisionResultsY = raycasterY.intersectObjects(scene.children[3].children, true);
+  let collisionResultsY = raycasterY.intersectObjects(scene.children[4].children, true);
   if (collisionResultsY.length > 0 && collisionResultsY[0].distance < 0.5) {
     gravityDistance = 0;
   }
   if (playerMovementVector.Z !== 0 && playerMovementVector.X !== 0) {
     let raycasterXZ = new THREE.Raycaster(player.position.clone(), playerMovementVector);
-    let collisionResultsXY = raycasterXZ.intersectObjects(scene.children[3].children, true);
+    let collisionResultsXY = raycasterXZ.intersectObjects(scene.children[4].children, true);
     if (collisionResultsXY.length > 0 && collisionResultsXY[0].distance < 0.5) {
       moveDistance = 0;
     }
@@ -193,7 +200,7 @@ function createObstacles(array, seite){
         let obstacle = selectCube(array[i][j]);
         switch (seite) {
           case 'a':
-            obstacle.position.z = 12.5;//20;
+            obstacle.position.z = 12.5;
             obstacle.position.x = -7.5+j*2.5;
             break;
           case 'b':
