@@ -1,12 +1,12 @@
 const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2( 0xcccccc, 0.02 );
+scene.fog = new THREE.FogExp2(0xcccccc, 0.02);
 let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.z = 30;
 camera.position.y = 10;
 camera.position.x = -5;
 camera.lookAt(scene.position);
 
-const renderer = new THREE.WebGLRenderer({antialias: true});
+const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.shadowMap.enabled = true;
 renderer.shadowMapSoft = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -29,12 +29,15 @@ let ambientLight = getAmbientLight();
 let collide = false;
 
 let rotateHori = 0,
-    rotateVert = 0,
-    rotateSpeed = 0.05;
+  rotateVert = 0,
+  rotateSpeed = 0.05;
 
 
-let arrayA = [[1,0,1,0,1,0,1,0,1],[0,1,0,1,0,1,0,1,0]],
-    obstacles = new THREE.Group();
+let arrayA = [
+    [1, 0, 1, 0, 1, 0, 1, 0, 1],
+    [0, 1, 0, 1, 0, 1, 0, 1, 0]
+  ],
+  obstacles = new THREE.Group();
 createObstacles(arrayA, 'a');
 createObstacles(arrayA, 'b');
 createObstacles(arrayA, 'c');
@@ -127,20 +130,20 @@ function updatePlayer() {
 }
 
 function updateCamera() {
-  if(rotateHori || rotateVert) {
-  let pos = camera.position.clone(),
+  if (rotateHori || rotateVert) {
+    let pos = camera.position.clone(),
       horAxis = pos.clone();
-      horAxis.applyAxisAngle(new THREE.Vector3(0,1,0),1.5708);
-      horAxis.y = 0;
-      horAxis.normalize();
-      console.log("vert: " + rotateVert)
-      console.log("hori: " + rotateHori)
+    horAxis.applyAxisAngle(new THREE.Vector3(0, 1, 0), 1.5708);
+    horAxis.y = 0;
+    horAxis.normalize();
+    console.log("vert: " + rotateVert)
+    console.log("hori: " + rotateHori)
 
-      pos.applyAxisAngle(horAxis, rotateHori);
-      pos.applyAxisAngle(new THREE.Vector3(0,1,0), rotateVert);
-      camera.position.copy(pos);
-      camera.lookAt(new THREE.Vector3(0,0,0));
-    }
+    pos.applyAxisAngle(horAxis, rotateHori);
+    pos.applyAxisAngle(new THREE.Vector3(0, 1, 0), rotateVert);
+    camera.position.copy(pos);
+    camera.lookAt(new THREE.Vector3(0, 0, 0));
+  }
 }
 
 /////////////////////////////////////
@@ -159,11 +162,11 @@ document.addEventListener("keydown", event => {
     gravity = -5;
   } else if (keyCode === 65) {
     rotateVert = -rotateSpeed;
-  } else if (keyCode === 68){
+  } else if (keyCode === 68) {
     rotateVert = rotateSpeed;
-  } else if(keyCode === 87) {
+  } else if (keyCode === 87) {
     rotateHori = -rotateSpeed;
-  } else if(keyCode === 83) {
+  } else if (keyCode === 83) {
     rotateHori = rotateSpeed;
   }
 }, false);
@@ -180,13 +183,13 @@ document.addEventListener("keyup", event => {
     playerMoveRight = false;
   } else if (keyCode == 32) {
     // spacePressed = false;
-  }else if (keyCode === 65) {
+  } else if (keyCode === 65) {
     rotateVert = 0;
-  } else if (keyCode === 68){
+  } else if (keyCode === 68) {
     rotateVert = 0;
-  } else if(keyCode === 87) {
+  } else if (keyCode === 87) {
     rotateHori = 0;
-  } else if(keyCode === 83) {
+  } else if (keyCode === 83) {
     rotateHori = 0;
   }
 }, false);
@@ -194,47 +197,48 @@ document.addEventListener("keyup", event => {
 ///////////////////////////////////////////////
 // Obstacles
 
-function createObstacles(array, seite){
-  for (let i = 0; i < array.length; i++){
-    for (let j = 0; j < array[0].length; j++){
-      if(array[i][j]!== 0){
+function createObstacles(array, seite) {
+  for (let i = 0; i < array.length; i++) {
+    for (let j = 0; j < array[0].length; j++) {
+      if (array[i][j] !== 0) {
         let obstacle = selectCube(array[i][j]);
         switch (seite) {
           case 'a':
             obstacle.position.z = 12.5;
-            obstacle.position.x = -10+j*2.5;
+            obstacle.position.x = -10 + j * 2.5;
             break;
           case 'b':
-            obstacle.position.z = 10-j*2.5;
+            obstacle.position.z = 10 - j * 2.5;
             obstacle.position.x = 12.5;
             break;
           case 'c':
             obstacle.position.z = -12.5;
-            obstacle.position.x = 10-j*2.5;
+            obstacle.position.x = 10 - j * 2.5;
             break;
           case 'd':
-            obstacle.position.z = -10+j*2.5;
+            obstacle.position.z = -10 + j * 2.5;
             obstacle.position.x = -12.5;
             break;
           default:
             break;
 
         }
-        obstacle.position.y = i*2.5-1;
+        obstacle.position.y = i * 2.5 - 1;
 
         obstacles.add(obstacle);
-      }else{
+      } else {
         continue;
       }
     }
   }
 }
 
-function selectCube(n){
-  switch(n){
+function selectCube(n) {
+  switch (n) {
     case 1:
       return getProtoBox();
-    break;
-    default: break;
+      break;
+    default:
+      break;
   }
 }
