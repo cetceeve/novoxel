@@ -22,7 +22,7 @@ let gravity = 5;
 let tower = createTower(5);
 let player = getPlayer();
 //player.position.y = 10;
-player.position.set(-8, 15, 12);
+player.position.set(-10, 15, 12);
 let directionalLight = getDirectionalLights();
 let hemisphereLight = getHemisphereLight();
 let ambientLight = getAmbientLight();
@@ -33,7 +33,7 @@ let rotateHori = 0,
     rotateSpeed = 0.05;
 
 
-let arrayA = [[1,0,1,0,1,0,1,0],[0,1,0,1,0,1,0,1]],
+let arrayA = [[1,0,1,0,1,0,1,0,1],[0,1,0,1,0,1,0,1,0]],
     obstacles = new THREE.Group();
 createObstacles(arrayA, 'a');
 createObstacles(arrayA, 'b');
@@ -83,7 +83,7 @@ function updatePlayer() {
   // Hitdetection
   let raycasterY = new THREE.Raycaster(player.position.clone(), new THREE.Vector3(0, -gravity, 0).normalize());
   let collisionResultsY = raycasterY.intersectObjects(scene.children[4].children, true);
-  if (collisionResultsY.length > 0 && collisionResultsY[0].distance < 0.5) {
+  if (collisionResultsY.length > 0 && collisionResultsY[0].distance < 0.2) {
     gravityDistance = 0;
   }
   if (playerMovementVector.Z !== 0 && playerMovementVector.X !== 0) {
@@ -202,18 +202,18 @@ function createObstacles(array, seite){
         switch (seite) {
           case 'a':
             obstacle.position.z = 12.5;
-            obstacle.position.x = -7.5+j*2.5;
+            obstacle.position.x = -10+j*2.5;
             break;
           case 'b':
-            obstacle.position.z = 7.5-j*2.5;
+            obstacle.position.z = 10-j*2.5;
             obstacle.position.x = 12.5;
             break;
           case 'c':
             obstacle.position.z = -12.5;
-            obstacle.position.x = 7.5-j*2.5;
+            obstacle.position.x = 10-j*2.5;
             break;
           case 'd':
-            obstacle.position.z = -7.5+j*2.5;
+            obstacle.position.z = -10+j*2.5;
             obstacle.position.x = -12.5;
             break;
           default:
