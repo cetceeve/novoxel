@@ -136,8 +136,8 @@ function updateCamera() {
     horAxis.applyAxisAngle(new THREE.Vector3(0, 1, 0), 1.5708);
     horAxis.y = 0;
     horAxis.normalize();
-    console.log("vert: " + rotateVert)
-    console.log("hori: " + rotateHori)
+    console.log("vert: " + rotateVert);
+    console.log("hori: " + rotateHori);
 
     pos.applyAxisAngle(horAxis, rotateHori);
     pos.applyAxisAngle(new THREE.Vector3(0, 1, 0), rotateVert);
@@ -237,7 +237,6 @@ function selectCube(n) {
   switch (n) {
     case 1:
       return getProtoBox();
-      break;
     default:
       break;
   }
