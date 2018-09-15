@@ -1,4 +1,14 @@
-{               
-  "-W104": true,
-  "-W119": true 
-}               
+{
+  "esversion": 6,
+  "browser" : true,
+  "devel": true,
+  "globals": {
+    "THREE": false
+  },
+  
+  "undef": false,
+  "unused": false,
+  "curly": true,
+  "eqeqeq": true,
+  "latedef": false
+}

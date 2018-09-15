@@ -1,3 +1,4 @@
+/*jshint unused: true */
 const scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2(0xcccccc, 0.02);
 let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -26,7 +27,6 @@ player.position.set(-10, 15, 12);
 let directionalLight = getDirectionalLights();
 let hemisphereLight = getHemisphereLight();
 let ambientLight = getAmbientLight();
-let collide = false;
 
 let rotateHori = 0,
   rotateVert = 0,
@@ -150,15 +150,15 @@ function updateCamera() {
 // Input
 document.addEventListener("keydown", event => {
   let keyCode = event.which;
-  if (keyCode == 38) { // away
+  if (keyCode === 38) { // away
     playerMoveAway = true;
-  } else if (keyCode == 40) { // toward
+  } else if (keyCode === 40) { // toward
     playerMoveToward = true;
-  } else if (keyCode == 37) { // links
+  } else if (keyCode === 37) { // links
     playerMoveLeft = true;
-  } else if (keyCode == 39) { // rechts
+  } else if (keyCode === 39) { // rechts
     playerMoveRight = true;
-  } else if (keyCode == 32) {
+  } else if (keyCode === 32) {
     gravity = -5;
   } else if (keyCode === 65) {
     rotateVert = -rotateSpeed;
@@ -173,15 +173,15 @@ document.addEventListener("keydown", event => {
 
 document.addEventListener("keyup", event => {
   let keyCode = event.which;
-  if (keyCode == 38) { // away
+  if (keyCode === 38) { // away
     playerMoveAway = false;
-  } else if (keyCode == 40) { // toward
+  } else if (keyCode === 40) { // toward
     playerMoveToward = false;
-  } else if (keyCode == 37) { // links
+  } else if (keyCode === 37) { // links
     playerMoveLeft = false;
-  } else if (keyCode == 39) { // rechts
+  } else if (keyCode === 39) { // rechts
     playerMoveRight = false;
-  } else if (keyCode == 32) {
+  } else if (keyCode === 32) {
     // spacePressed = false;
   } else if (keyCode === 65) {
     rotateVert = 0;
@@ -221,7 +221,6 @@ function createObstacles(array, seite) {
             break;
           default:
             break;
-
         }
         obstacle.position.y = i * 2.5 - 1;
 
