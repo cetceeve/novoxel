@@ -1,4 +1,5 @@
 /*jshint unused: true */
+/*jshint undef: false */
 const scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2(0xcccccc, 0.02);
 let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -17,13 +18,12 @@ const clock = new THREE.Clock();
 
 /////////////////////////////////////
 // Objects
-let playerMoveAway, playerMoveToward, playerMoveLeft, playerMoveRight, gravityDistance;
+let gravityDistance, moveDistance;
 let movementSpeed = 2;
 let gravity = 5;
 let tower = createTower(5);
-let player = getPlayer();
-//player.position.y = 10;
-player.position.set(-10, 15, 12);
+let player = new Player();
+player.representation.position.set(-10, 15, 12);
 let directionalLight = getDirectionalLights();
 let hemisphereLight = getHemisphereLight();
 let ambientLight = getAmbientLight();
@@ -31,7 +31,6 @@ let ambientLight = getAmbientLight();
 let rotateHori = 0,
   rotateVert = 0,
   rotateSpeed = 0.05;
-
 
 let arrayA = [
     [1, 0, 1, 0, 1, 0, 1, 0, 1],
@@ -48,13 +47,14 @@ tower.receiveShadow = true;
 obstacles.castShadow = true;
 obstacles.receiveShadow = true;
 
+tower.add(obstacles);
 
-scene.add(player);
+scene.add(player.representation);
 scene.add(hemisphereLight);
 scene.add(ambientLight);
 scene.add(directionalLight);
-tower.add(obstacles);
 scene.add(tower);
+scene.add(new THREE.AxesHelper());
 
 ////////////////////////////////////
 // animation
@@ -67,51 +67,33 @@ var animate = function() {
 animate();
 
 function updatePlayer() {
+  // movementValues
   let clockSpeed = clock.getDelta();
-  let moveDistance = movementSpeed * clockSpeed;
+  moveDistance = movementSpeed * clockSpeed;
   gravityDistance = gravity * clockSpeed;
 
-  // movement direction
-  let playerMovementVector = new THREE.Vector3(0, 0, 0);
-  if (playerMoveAway) {
-    playerMovementVector.setZ(-1);
-  } else if (playerMoveToward) {
-    playerMovementVector.setZ(1);
-  } else if (playerMoveLeft) {
-    playerMovementVector.setX(-1);
-  } else if (playerMoveRight) {
-    playerMovementVector.setX(1);
-  }
-
   // Hitdetection
-  let raycasterY = new THREE.Raycaster(player.position.clone(), new THREE.Vector3(0, -gravity, 0).normalize());
+  let raycasterY = new THREE.Raycaster(player.representation.position.clone(), new THREE.Vector3(0, -gravity, 0).normalize());
   let collisionResultsY = raycasterY.intersectObjects(scene.children[4].children, true);
-  if (collisionResultsY.length > 0 && collisionResultsY[0].distance < 0.2) {
+  if (collisionResultsY.length > 0 && collisionResultsY[0].distance < player.getYHitDetectionDistance()) {
     gravityDistance = 0;
   }
-  if (playerMovementVector.Z !== 0 && playerMovementVector.X !== 0) {
-    let raycasterXZ = new THREE.Raycaster(player.position.clone(), playerMovementVector);
+  if (player.movementVector.Z !== 0 && player.movementVector.X !== 0) {
+    let raycasterXZ = new THREE.Raycaster(player.representation.position.clone(), player.movementVector);
     let collisionResultsXY = raycasterXZ.intersectObjects(scene.children[4].children, true);
-    if (collisionResultsXY.length > 0 && collisionResultsXY[0].distance < 0.5) {
+    if (collisionResultsXY.length > 0 && collisionResultsXY[0].distance < player.dimension) {
       moveDistance = 0;
     }
   }
 
-  // movement
-  player.position.y -= gravityDistance;
-  if (playerMoveAway) {
-    player.position.z -= moveDistance;
-  } else if (playerMoveToward) {
-    player.position.z += moveDistance;
-  } else if (playerMoveLeft) {
-    player.position.x -= moveDistance;
-  } else if (playerMoveRight) {
-    player.position.x += moveDistance;
-  }
+  // execute movement
+  player.updatePosition(gravityDistance, moveDistance);
 
+  // update grvity
   if (gravity < 5) {
     gravity += 0.2;
   }
+
   // collision detection:
   //   determines if any of the rays from the cube's origin to each vertex
   //		intersects any face of a mesh in the array of target meshes
@@ -151,13 +133,13 @@ function updateCamera() {
 document.addEventListener("keydown", event => {
   let keyCode = event.which;
   if (keyCode === 38) { // away
-    playerMoveAway = true;
+    player.movementVector.setZ(-1);
   } else if (keyCode === 40) { // toward
-    playerMoveToward = true;
+    player.movementVector.setZ(1);
   } else if (keyCode === 37) { // links
-    playerMoveLeft = true;
+    player.movementVector.setX(-1);
   } else if (keyCode === 39) { // rechts
-    playerMoveRight = true;
+    player.movementVector.setX(1);
   } else if (keyCode === 32) {
     gravity = -5;
   } else if (keyCode === 65) {
@@ -174,13 +156,13 @@ document.addEventListener("keydown", event => {
 document.addEventListener("keyup", event => {
   let keyCode = event.which;
   if (keyCode === 38) { // away
-    playerMoveAway = false;
+    player.movementVector.setZ(0);
   } else if (keyCode === 40) { // toward
-    playerMoveToward = false;
+    player.movementVector.setZ(0);
   } else if (keyCode === 37) { // links
-    playerMoveLeft = false;
+    player.movementVector.setX(0);
   } else if (keyCode === 39) { // rechts
-    playerMoveRight = false;
+    player.movementVector.setX(0);
   } else if (keyCode === 32) {
     // spacePressed = false;
   } else if (keyCode === 65) {

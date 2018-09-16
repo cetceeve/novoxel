@@ -3,10 +3,11 @@
   "browser" : true,
   "devel": true,
   "globals": {
-    "THREE": false
+    "THREE": false,
+    "Player": false
   },
-  
-  "undef": false,
+
+  "undef": true,
   "unused": false,
   "curly": true,
   "eqeqeq": true,
