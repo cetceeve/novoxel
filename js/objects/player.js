@@ -2,7 +2,6 @@ class Player {
   constructor() {
     this.dimension = 0.5;
     this.representation = this.getRepresentation();
-    this.representation.position.set(-10, 15, 12); // Startposition
     this.movementVector = new THREE.Vector3(0, 0, 0);
     this.movementProperties = {
       inAir: true,
@@ -26,7 +25,7 @@ class Player {
   getRepresentation() {
     let bottom, cyl, ball, playerRep, localPlane;
 
-    localPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), this.dimension);
+    localPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), 0);
     bottom = new THREE.Mesh(
       new THREE.SphereGeometry(this.dimension, 16, 16),
       new THREE.MeshLambertMaterial({
@@ -37,7 +36,7 @@ class Player {
     );
 
     cyl = new THREE.Mesh(
-      new THREE.CylinderGeometry(this.dimension * 0.4, this.dimension, this.dimension * 2, 32, 1, false),
+      new THREE.CylinderGeometry(this.dimension * 0.4, this.dimension, this.dimension * 2, 16, 1, false),
       new THREE.MeshLambertMaterial({ color: 0x2d3e50 })
     );
     cyl.position.y = this.dimension;
@@ -57,6 +56,9 @@ class Player {
       playerRep.children[i].castShadow = true;
       playerRep.children[i].receiveShadow = true;
     }
+
+    playerRep.position.set(-10, 15, 12); // Startposition
+    playerRep.children[0].material.clippingPlanes[0].constant = 15;
     return playerRep;
   }
 
@@ -67,7 +69,6 @@ class Player {
   updatePosition(gravityDistance, moveDistance) {
     this.representation.position.y -= gravityDistance;
     this.representation.children[0].material.clippingPlanes[0].constant -= gravityDistance;
-    console.log(this.representation.children[0].material.clippingPlanes[0].constant);
     if (this.movementVector.z < 0) { // move away
       this.representation.position.z -= moveDistance;
     }
