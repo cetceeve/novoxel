@@ -18,7 +18,6 @@ const clock = new THREE.Clock();
 
 /////////////////////////////////////
 // Objects
-// let gravityDistance, moveDistance;
 let tower = createTower(5);
 let player = new Player();
 let directionalLight = getDirectionalLights();
@@ -38,11 +37,6 @@ createObstacles(arrayA, 'a');
 createObstacles(arrayA, 'b');
 createObstacles(arrayA, 'c');
 createObstacles(arrayA, 'd');
-
-tower.castShadow = true;
-tower.receiveShadow = true;
-obstacles.castShadow = true;
-obstacles.receiveShadow = true;
 
 tower.add(obstacles);
 
@@ -90,24 +84,8 @@ function updatePlayer() {
   // execute movement
   player.updatePosition(gravityDistance, moveDistance);
 
-  // update grvity
+  // update gravity
   player.movementProperties.updateGravity();
-
-  // collision detection:
-  //   determines if any of the rays from the cube's origin to each vertex
-  //		intersects any face of a mesh in the array of target meshes
-  //   for increased collision accuracy, add more vertices to the cube;
-  //		for example, new THREE.CubeGeometry( 64, 64, 64, 8, 8, 8, wireMaterial )
-  //   HOWEVER: when the origin of the ray is within the target mesh, collisions do not occur
-  // let originPoint = player.position.clone();
-  // for (let vertexIndex = 0; vertexIndex < player.geometry.vertices.length; vertexIndex++) {
-  //   let localVertex = player.geometry.vertices[vertexIndex].clone();
-  //   let globalVertex = localVertex.applyMatrix4(player.matrix);
-  //   let directionVector = globalVertex.sub(player.position);
-  //
-  //   let ray = new THREE.Raycaster(originPoint, directionVector.clone().normalize());
-  //   let collisionResults = ray.intersectObjects(scene.children);
-  // }
 }
 
 function updateCamera() {
@@ -130,54 +108,70 @@ function updateCamera() {
 /////////////////////////////////////
 // Input
 document.addEventListener("keydown", event => {
-  let keyCode = event.which;
-  if (keyCode === 38) { // away
-    player.movementVector.setZ(-1);
-  } else if (keyCode === 40) { // toward
-    player.movementVector.setZ(1);
-  } else if (keyCode === 37) { // links
-    player.movementVector.setX(-1);
-  } else if (keyCode === 39) { // rechts
-    player.movementVector.setX(1);
-  } else if (keyCode === 32) {
-    player.movementProperties.reverseGravity();
-  } else if (keyCode === 65) {
-    rotateVert = -rotateSpeed;
-  } else if (keyCode === 68) {
-    rotateVert = rotateSpeed;
-  } else if (keyCode === 87) {
-    rotateHori = -rotateSpeed;
-  } else if (keyCode === 83) {
-    rotateHori = rotateSpeed;
+  switch (event.keyCode) {
+    case 38: // toward
+      player.movementVector.setZ(-1);
+      break;
+    case 40: // away
+      player.movementVector.setZ(1);
+      break;
+    case 37: // links
+      player.movementVector.setX(-1);
+      break;
+    case 39: // rechts
+      player.movementVector.setX(1);
+      break;
+    case 32: // space {
+      player.movementProperties.reverseGravity();
+      break;
+    case 65: // 'a'
+      rotateVert = -rotateSpeed;
+      break;
+    case 68: // 'd'
+      rotateVert = rotateSpeed;
+      break;
+    case 87: // 'w'
+      rotateHori = -rotateSpeed;
+      break;
+    case 83: // 's'
+      rotateHori = rotateSpeed;
+      break;
   }
 }, false);
 
 document.addEventListener("keyup", event => {
-  let keyCode = event.which;
-  if (keyCode === 38) { // away
-    player.movementVector.setZ(0);
-  } else if (keyCode === 40) { // toward
-    player.movementVector.setZ(0);
-  } else if (keyCode === 37) { // links
-    player.movementVector.setX(0);
-  } else if (keyCode === 39) { // rechts
-    player.movementVector.setX(0);
-  } else if (keyCode === 32) { // space
-    // spacePressed = false;
-  } else if (keyCode === 65) {
-    rotateVert = 0;
-  } else if (keyCode === 68) {
-    rotateVert = 0;
-  } else if (keyCode === 87) {
-    rotateHori = 0;
-  } else if (keyCode === 83) {
-    rotateHori = 0;
+  switch (event.keyCode) {
+    case 38: // toward
+      player.movementVector.setZ(0);
+      break;
+    case 40: // away
+      player.movementVector.setZ(0);
+      break;
+    case 37: // links
+      player.movementVector.setX(0);
+      break;
+    case 39: // rechts
+      player.movementVector.setX(0);
+      break;
+    case 32: // space {
+      break;
+    case 65: // 'a'
+      rotateVert = 0;
+      break;
+    case 68: // 'd'
+      rotateVert = 0;
+      break;
+    case 87: // 'w'
+      rotateHori = 0;
+      break;
+    case 83: // 's'
+      rotateHori = 0;
+      break;
   }
 }, false);
 
 ///////////////////////////////////////////////
 // Obstacles
-
 function createObstacles(array, seite) {
   for (let i = 0; i < array.length; i++) {
     for (let j = 0; j < array[0].length; j++) {
