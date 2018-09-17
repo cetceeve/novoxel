@@ -1,8 +1,26 @@
 class Player {
   constructor() {
     this.dimension = 0.49;
-    this.movementVector = new THREE.Vector3(0, 0, 0);
     this.representation = this.getRepresentation();
+    this.representation.position.set(-10, 15, 12); // Startposition
+    this.movementVector = new THREE.Vector3(0, 0, 0);
+    this.movementProperties = {
+      inAir: true,
+      gravityTarget: 10,
+      gravity: 10,
+      movementSpeed: 4,
+      updateGravity: function() {
+        if (this.gravity < this.gravityTarget) {
+          this.gravity += 0.3;
+        }
+      },
+      reverseGravity: function() {
+        if (!this.inAir) {
+          this.gravity = -1 * this.gravity;
+          this.inAir = true;
+        }
+      }
+    };
   }
 
   getRepresentation() {

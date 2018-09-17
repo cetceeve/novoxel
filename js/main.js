@@ -18,27 +18,9 @@ const clock = new THREE.Clock();
 
 /////////////////////////////////////
 // Objects
-let playerMovementProperties = {
-  inAir: true,
-  gravityTarget: 10,
-  gravity: 10,
-  movementSpeed: 4,
-  updateGravity: function() {
-    if (this.gravity < this.gravityTarget) {
-      this.gravity += 0.3;
-    }
-  },
-  reverseGravity: function() {
-    if (this.gravity === this.gravityTarget && !this.inAir) {
-      this.gravity = -1 * this.gravity;
-      this.inAir = true;
-    }
-  }
-};
-let gravityDistance, moveDistance;
+// let gravityDistance, moveDistance;
 let tower = createTower(5);
 let player = new Player();
-player.representation.position.set(-10, 15, 12);
 let directionalLight = getDirectionalLights();
 let hemisphereLight = getHemisphereLight();
 let ambientLight = getAmbientLight();
@@ -84,18 +66,18 @@ animate();
 function updatePlayer() {
   // movementValues
   let clockSpeed = clock.getDelta();
-  moveDistance = playerMovementProperties.movementSpeed * clockSpeed;
-  gravityDistance = playerMovementProperties.gravity * clockSpeed;
+  let moveDistance = player.movementProperties.movementSpeed * clockSpeed;
+  let gravityDistance = player.movementProperties.gravity * clockSpeed;
 
   // Hitdetection
-  let raycasterY = new THREE.Raycaster(player.representation.position.clone(), new THREE.Vector3(0, -1 * playerMovementProperties.gravity, 0).normalize());
+  let raycasterY = new THREE.Raycaster(player.representation.position.clone(), new THREE.Vector3(0, -1 * player.movementProperties.gravity, 0).normalize());
   let collisionResultsY = raycasterY.intersectObjects(tower.children, true);
   if (collisionResultsY.length > 0 && collisionResultsY[0].distance < player.getYHitDetectionDistance()) {
     gravityDistance = 0;
-    playerMovementProperties.gravity = playerMovementProperties.gravityTarget;
-    playerMovementProperties.inAir = false;
+    player.movementProperties.gravity = player.movementProperties.gravityTarget;
+    player.movementProperties.inAir = false;
   } else {
-    playerMovementProperties.inAir = true;
+    player.movementProperties.inAir = true;
   }
   if (player.movementVector.z !== 0 || player.movementVector.x !== 0) {
     let raycasterXZ = new THREE.Raycaster(player.representation.position.clone(), player.movementVector);
@@ -109,7 +91,7 @@ function updatePlayer() {
   player.updatePosition(gravityDistance, moveDistance);
 
   // update grvity
-  playerMovementProperties.updateGravity();
+  player.movementProperties.updateGravity();
 
   // collision detection:
   //   determines if any of the rays from the cube's origin to each vertex
@@ -158,7 +140,7 @@ document.addEventListener("keydown", event => {
   } else if (keyCode === 39) { // rechts
     player.movementVector.setX(1);
   } else if (keyCode === 32) {
-    playerMovementProperties.reverseGravity();
+    player.movementProperties.reverseGravity();
   } else if (keyCode === 65) {
     rotateVert = -rotateSpeed;
   } else if (keyCode === 68) {
