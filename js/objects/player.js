@@ -46,7 +46,7 @@ class Player {
   }
 
   getYHitDetectionDistance() {
-    return this.dimension * 0.15;
+    return this.dimension * 0.4;
   }
 
   updatePosition(gravityDistance, moveDistance) {
