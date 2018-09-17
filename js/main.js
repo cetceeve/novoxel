@@ -74,13 +74,13 @@ function updatePlayer() {
 
   // Hitdetection
   let raycasterY = new THREE.Raycaster(player.representation.position.clone(), new THREE.Vector3(0, -gravity, 0).normalize());
-  let collisionResultsY = raycasterY.intersectObjects(scene.children[4].children, true);
+  let collisionResultsY = raycasterY.intersectObjects(tower.children, true);
   if (collisionResultsY.length > 0 && collisionResultsY[0].distance < player.getYHitDetectionDistance()) {
     gravityDistance = 0;
   }
-  if (player.movementVector.Z !== 0 && player.movementVector.X !== 0) {
+  if (player.movementVector.z !== 0 || player.movementVector.x !== 0) {
     let raycasterXZ = new THREE.Raycaster(player.representation.position.clone(), player.movementVector);
-    let collisionResultsXY = raycasterXZ.intersectObjects(scene.children[4].children, true);
+    let collisionResultsXY = raycasterXZ.intersectObjects(tower.children, true);
     if (collisionResultsXY.length > 0 && collisionResultsXY[0].distance < player.dimension) {
       moveDistance = 0;
     }
