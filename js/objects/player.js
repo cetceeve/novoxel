@@ -24,11 +24,16 @@ class Player {
   }
 
   getRepresentation() {
-    let bottom, cyl, ball, playerRep;
+    let bottom, cyl, ball, playerRep, localPlane;
 
+    localPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), this.dimension);
     bottom = new THREE.Mesh(
       new THREE.SphereGeometry(this.dimension, 16, 16),
-      new THREE.MeshLambertMaterial({ color: 0x2d3e50 })
+      new THREE.MeshLambertMaterial({
+        color: 0x2d3e50,
+        clippingPlanes: [localPlane],
+        clipShadows: true
+      })
     );
 
     cyl = new THREE.Mesh(
@@ -44,9 +49,9 @@ class Player {
     ball.position.y = this.dimension * 3;
 
     playerRep = new THREE.Group();
+    playerRep.add(bottom);
     playerRep.add(cyl);
     playerRep.add(ball);
-    playerRep.add(bottom);
 
     for (let i = 0; i < playerRep.children.length; i++) {
       playerRep.children[i].castShadow = true;
@@ -61,6 +66,8 @@ class Player {
 
   updatePosition(gravityDistance, moveDistance) {
     this.representation.position.y -= gravityDistance;
+    this.representation.children[0].material.clippingPlanes[0].constant -= gravityDistance;
+    console.log(this.representation.children[0].material.clippingPlanes[0].constant);
     if (this.movementVector.z < 0) { // move away
       this.representation.position.z -= moveDistance;
     }
