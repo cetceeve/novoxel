@@ -1,6 +1,6 @@
 class Player {
   constructor() {
-    this.dimension = 0.49;
+    this.dimension = 0.5;
     this.representation = this.getRepresentation();
     this.representation.position.set(-10, 15, 12); // Startposition
     this.movementVector = new THREE.Vector3(0, 0, 0);
@@ -32,16 +32,16 @@ class Player {
     );
 
     cyl = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.2, 0.5, 1, 32, 1, false),
+      new THREE.CylinderGeometry(this.dimension * 0.4, this.dimension, this.dimension * 2, 32, 1, false),
       new THREE.MeshLambertMaterial({ color: 0x2d3e50 })
     );
-    cyl.position.y = 0.5;
+    cyl.position.y = this.dimension;
 
     ball = new THREE.Mesh(
-      new THREE.SphereGeometry(0.4, 16, 16),
+      new THREE.SphereGeometry(this.dimension * 0.8, 16, 16),
       new THREE.MeshLambertMaterial({ color: 0x2d3e50 })
     );
-    ball.position.y = 1.5;
+    ball.position.y = this.dimension * 3;
 
     playerRep = new THREE.Group();
     playerRep.add(cyl);
