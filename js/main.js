@@ -21,7 +21,7 @@ const clock = new THREE.Clock();
 // Objects
 let tower = createTower(5);
 let player = new Player();
-let directionalLight = getDirectionalLights();
+let directionalLight = getSpotLights();
 let hemisphereLight = getHemisphereLight();
 let ambientLight = getAmbientLight();
 
