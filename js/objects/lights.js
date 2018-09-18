@@ -1,19 +1,19 @@
 function getDirectionalLights() {
   let directionals = new THREE.Group();
 
-  let light1 = new THREE.DirectionalLight( 0xa0a0ff, 1.5 );
+  let light1 = new THREE.DirectionalLight(0xa0a0ff, 1.5);
   light1.position.set(25, 10, 0);
   light1.castShadow = true;
 
-  let light2 = new THREE.DirectionalLight( 0xa0a0ff, 1.5 );
+  let light2 = new THREE.DirectionalLight(0xa0a0ff, 1.5);
   light2.position.set(0, 10, 25);
   light2.castShadow = true;
 
-  let light3 = new THREE.DirectionalLight( 0xa0a0ff, 1.5 );
+  let light3 = new THREE.DirectionalLight(0xa0a0ff, 1.5);
   light3.position.set(-25, 10, 0);
   light3.castShadow = true;
 
-  let light4 = new THREE.DirectionalLight( 0xa0a0ff, 1.5 );
+  let light4 = new THREE.DirectionalLight(0xa0a0ff, 1.5);
   light4.position.set(0, 10, -25);
   light4.castShadow = true;
 
@@ -24,8 +24,8 @@ function getDirectionalLights() {
   return directionals;
 }
 
-function getHemisphereLight(){
-  let hemiLight = new THREE.HemisphereLight(0xffffff, 0x2d3e50, 1);
+function getHemisphereLight() {
+  let hemiLight = new THREE.HemisphereLight(0x05d7fc, 0xffffff, 1);
   return hemiLight;
 }
 
