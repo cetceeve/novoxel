@@ -21,7 +21,8 @@ const clock = new THREE.Clock();
 // Objects
 let tower = createTower(5);
 let player = new Player();
-let directionalLight = getSpotLights();
+let spotLights = getSpotLights();
+let directionalLight = getDirectionalLights();
 let hemisphereLight = getHemisphereLight();
 let ambientLight = getAmbientLight();
 
@@ -42,9 +43,10 @@ createObstacles(arrayA, 'd');
 tower.add(obstacles);
 
 scene.add(player.representation);
-scene.add(hemisphereLight);
+// scene.add(hemisphereLight);
+scene.add(spotLights);
 scene.add(ambientLight);
-scene.add(directionalLight);
+//scene.add(directionalLight);
 scene.add(tower);
 scene.add(new THREE.AxesHelper());
 

@@ -28,8 +28,8 @@ class Player {
     localPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), 0);
     bottom = new THREE.Mesh(
       new THREE.SphereGeometry(this.dimension, 16, 16),
-      new THREE.MeshLambertMaterial({
-        color: 0x2d3e50,
+      new THREE.MeshPhongMaterial({
+        color: 0xff0000,
         clippingPlanes: [localPlane],
         clipShadows: true
       })
@@ -37,13 +37,13 @@ class Player {
 
     cyl = new THREE.Mesh(
       new THREE.CylinderGeometry(this.dimension * 0.4, this.dimension, this.dimension * 2, 16, 1, false),
-      new THREE.MeshLambertMaterial({ color: 0x2d3e50 })
+      new THREE.MeshPhongMaterial({ color: 0xff0000 })
     );
     cyl.position.y = this.dimension;
 
     ball = new THREE.Mesh(
       new THREE.SphereGeometry(this.dimension * 0.8, 16, 16),
-      new THREE.MeshLambertMaterial({ color: 0x2d3e50 })
+      new THREE.MeshPhongMaterial({ color: 0xff0000 })
     );
     ball.position.y = this.dimension * 3;
 
