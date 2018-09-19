@@ -4,7 +4,8 @@
   "devel": true,
   "globals": {
     "THREE": false,
-    "Player": false
+    "Player": false,
+    "Lights": false
   },
 
   "undef": true,

@@ -19,12 +19,14 @@ const clock = new THREE.Clock();
 
 /////////////////////////////////////
 // Objects
-let tower = createTower(5);
-let player = new Player();
-let spotLights = getSpotLights();
-let directionalLight = getDirectionalLights();
-let hemisphereLight = getHemisphereLight();
-let ambientLight = getAmbientLight();
+let tower, player, lights;
+tower = createTower(5);
+player = new Player();
+lights = new Lights();
+// let spotLights = getSpotLights();
+// let directionalLight = getDirectionalLights();
+// let hemisphereLight = getHemisphereLight();
+// let ambientLight = getAmbientLight();
 
 let rotateHori = 0,
   rotateVert = 0,
@@ -43,10 +45,10 @@ createObstacles(arrayA, 'd');
 tower.add(obstacles);
 
 scene.add(player.representation);
-// scene.add(hemisphereLight);
-scene.add(spotLights);
-scene.add(ambientLight);
-//scene.add(directionalLight);
+// scene.add(lights.hemisphereLight);
+scene.add(lights.spotLights);
+scene.add(lights.ambientLight);
+//scene.add(lights.directionalLight);
 scene.add(tower);
 scene.add(new THREE.AxesHelper());
 
