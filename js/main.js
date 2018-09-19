@@ -1,6 +1,6 @@
 /*jshint unused: true */
 /*jshint undef: true */
-const scene = new THREE.Scene();
+let scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2(0xcccccc, 0.02);
 let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.z = 30;
@@ -8,19 +8,19 @@ camera.position.y = 10;
 camera.position.x = -5;
 camera.lookAt(scene.position);
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
+let renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.shadowMap.enabled = true;
 renderer.shadowMapSoft = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.localClippingEnabled = true;
 renderer.setSize(window.innerWidth * 0.8, window.innerHeight * 0.8);
 document.body.appendChild(renderer.domElement);
-const clock = new THREE.Clock();
+let clock = new THREE.Clock();
 
 /////////////////////////////////////
 // Objects
 let tower, player, lights;
-tower = createTower(5);
+tower = new Tower();
 player = new Player();
 lights = new Lights();
 
@@ -38,14 +38,14 @@ createObstacles(arrayA, 'b');
 createObstacles(arrayA, 'c');
 createObstacles(arrayA, 'd');
 
-tower.add(obstacles);
+tower.representation.add(obstacles);
 
 scene.add(player.representation);
 scene.add(lights.spotLights);
 scene.add(lights.ambientLight);
 // scene.add(lights.hemisphereLight);
-//scene.add(lights.directionalLight);
-scene.add(tower);
+// scene.add(lights.directionalLight);
+scene.add(tower.representation);
 scene.add(new THREE.AxesHelper());
 
 ////////////////////////////////////
@@ -66,7 +66,7 @@ function updatePlayer() {
 
   // Hitdetection
   let raycasterY = new THREE.Raycaster(player.representation.position.clone(), new THREE.Vector3(0, -1 * player.movementProperties.gravity, 0).normalize());
-  let collisionResultsY = raycasterY.intersectObjects(tower.children, true);
+  let collisionResultsY = raycasterY.intersectObjects(tower.representation.children, true);
   if (collisionResultsY.length > 0 && collisionResultsY[0].distance < player.floatDistance) {
     gravityDistance = 0;
     player.movementProperties.gravity = player.movementProperties.gravityTarget;
@@ -76,7 +76,7 @@ function updatePlayer() {
   }
   if (player.movementVector.z !== 0 || player.movementVector.x !== 0) {
     let raycasterXZ = new THREE.Raycaster(player.representation.position.clone(), player.movementVector);
-    let collisionResultsXY = raycasterXZ.intersectObjects(tower.children, true);
+    let collisionResultsXY = raycasterXZ.intersectObjects(tower.representation.children, true);
     if (collisionResultsXY.length > 0 && collisionResultsXY[0].distance < player.dimension) {
       moveDistance = 0;
     }
@@ -211,7 +211,7 @@ function createObstacles(array, seite) {
 function selectCube(n) {
   switch (n) {
     case 1:
-      return getProtoBox();
+      return tower.getObstacle();
     default:
       break;
   }
