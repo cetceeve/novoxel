@@ -57,5 +57,5 @@ function getHemisphereLight() {
 }
 
 function getAmbientLight() {
-  return new THREE.AmbientLight(0xffffff, 0.1);
+  return new THREE.AmbientLight(0xffffff, 0.2);
 }
