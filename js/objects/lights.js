@@ -32,19 +32,27 @@ class Lights {
   }
 
   getSpotLights() {
-    let spotLights, light1, light2, light3, light4;
+    let spotLights, prop, light1, light2, light3, light4;
+    prop = {
+      color: 0xffffff,
+      intensity: 1,
+      distance: 0,
+      angle: 0.8,
+      posHeight: 10,
+      posSpacing: 25
+    };
 
-    light1 = new THREE.SpotLight(0xffffff, 1, 0, 0.8);
-    light1.position.set(25, 10, 0);
+    light1 = new THREE.SpotLight(prop.color, prop.intensity, prop.distnance, prop.angle);
+    light1.position.set(prop.posSpacing, prop.posHeight, 0);
 
-    light2 = new THREE.SpotLight(0xffffff, 1, 0, 0.8);
-    light2.position.set(0, 10, 25);
+    light2 = new THREE.SpotLight(prop.color, prop.intensity, prop.distnance, prop.angle);
+    light2.position.set(0, prop.posHeight, prop.posSpacing);
 
-    light3 = new THREE.SpotLight(0xffffff, 1, 0, 0.8);
-    light3.position.set(-25, 10, 0);
+    light3 = new THREE.SpotLight(prop.color, prop.intensity, prop.distnance, prop.angle);
+    light3.position.set(-prop.posSpacing, prop.posHeight, 0);
 
-    light4 = new THREE.SpotLight(0xffffff, 1, 0, 0.8);
-    light4.position.set(0, 10, -25);
+    light4 = new THREE.SpotLight(prop.color, prop.intensity, prop.distnance, prop.angle);
+    light4.position.set(0, prop.posHeight, -prop.posSpacing);
 
     spotLights = new THREE.Group();
     spotLights.add(light1, light2, light3, light4);
