@@ -61,23 +61,24 @@ animate();
 function updatePlayer() {
   // movementValues
   let clockSpeed = clock.getDelta();
-  let moveDistance = player.movementProperties.movementSpeed * clockSpeed;
-  let gravityDistance = player.movementProperties.gravity * clockSpeed;
+  let moveDistance = player.prop.movementSpeed * clockSpeed;
+  let gravityDistance = player.prop.gravity * clockSpeed;
 
-  // Hitdetection
-  let raycasterY = new THREE.Raycaster(player.representation.position.clone(), new THREE.Vector3(0, -1 * player.movementProperties.gravity, 0).normalize());
+  // Hitdetections
+  let raycasterY = new THREE.Raycaster(player.representation.position.clone(), new THREE.Vector3(0, -1 * player.prop.gravity, 0).normalize());
   let collisionResultsY = raycasterY.intersectObjects(tower.representation.children, true);
-  if (collisionResultsY.length > 0 && collisionResultsY[0].distance < player.floatDistance) {
+  if (collisionResultsY.length > 0 && collisionResultsY[0].distance < player.prop.floatingDistance) {
     gravityDistance = 0;
-    player.movementProperties.gravity = player.movementProperties.gravityTarget;
-    player.movementProperties.inAir = false;
+    player.prop.gravity = player.prop.gravityTarget;
+    player.prop.inAir = false;
   } else {
-    player.movementProperties.inAir = true;
+    player.prop.inAir = true;
   }
-  if (player.movementVector.z !== 0 || player.movementVector.x !== 0) {
-    let raycasterXZ = new THREE.Raycaster(player.representation.position.clone(), player.movementVector);
+
+  if (player.prop.movementVector.z !== 0 || player.prop.movementVector.x !== 0) {
+    let raycasterXZ = new THREE.Raycaster(player.representation.position.clone(), player.prop.movementVector);
     let collisionResultsXY = raycasterXZ.intersectObjects(tower.representation.children, true);
-    if (collisionResultsXY.length > 0 && collisionResultsXY[0].distance < player.dimension) {
+    if (collisionResultsXY.length > 0 && collisionResultsXY[0].distance < player.prop.dimension) {
       moveDistance = 0;
     }
   }
@@ -86,7 +87,7 @@ function updatePlayer() {
   player.updatePosition(gravityDistance, moveDistance);
 
   // update gravity
-  player.movementProperties.updateGravity();
+  player.prop.updateGravity();
 }
 
 function updateCamera() {
@@ -111,19 +112,19 @@ function updateCamera() {
 document.addEventListener("keydown", event => {
   switch (event.keyCode) {
     case 38: // toward
-      player.movementVector.setZ(-1);
+      player.prop.movementVector.setZ(-1);
       break;
     case 40: // away
-      player.movementVector.setZ(1);
+      player.prop.movementVector.setZ(1);
       break;
     case 37: // links
-      player.movementVector.setX(-1);
+      player.prop.movementVector.setX(-1);
       break;
     case 39: // rechts
-      player.movementVector.setX(1);
+      player.prop.movementVector.setX(1);
       break;
     case 32: // space {
-      player.movementProperties.reverseGravity();
+      player.prop.reverseGravity();
       break;
     case 65: // 'a'
       rotateVert = -rotateSpeed;
@@ -143,16 +144,16 @@ document.addEventListener("keydown", event => {
 document.addEventListener("keyup", event => {
   switch (event.keyCode) {
     case 38: // toward
-      player.movementVector.setZ(0);
+      player.prop.movementVector.setZ(0);
       break;
     case 40: // away
-      player.movementVector.setZ(0);
+      player.prop.movementVector.setZ(0);
       break;
     case 37: // links
-      player.movementVector.setX(0);
+      player.prop.movementVector.setX(0);
       break;
     case 39: // rechts
-      player.movementVector.setX(0);
+      player.prop.movementVector.setX(0);
       break;
     case 32: // space {
       break;
