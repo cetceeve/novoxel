@@ -1,6 +1,7 @@
 class Player {
   constructor() {
     this.dimension = 0.5;
+    this.floatDistance = this.dimension * 1.2;
     this.representation = this.getRepresentation();
     this.movementVector = new THREE.Vector3(0, 0, 0);
     this.movementProperties = {
@@ -48,9 +49,7 @@ class Player {
     ball.position.y = this.dimension * 3;
 
     playerRep = new THREE.Group();
-    playerRep.add(bottom);
-    playerRep.add(cyl);
-    playerRep.add(ball);
+    playerRep.add(bottom, cyl, ball);
 
     for (let i = 0; i < playerRep.children.length; i++) {
       playerRep.children[i].castShadow = true;
@@ -60,10 +59,6 @@ class Player {
     playerRep.position.set(-10, 15, 12); // Startposition
     playerRep.children[0].material.clippingPlanes[0].constant = 15;
     return playerRep;
-  }
-
-  getYHitDetectionDistance() {
-    return this.dimension * 1.2;
   }
 
   updatePosition(gravityDistance, moveDistance) {

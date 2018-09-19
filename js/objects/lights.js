@@ -7,24 +7,22 @@ class Lights {
   }
 
   getDirectionalLights() {
-    let directionals = new THREE.Group();
+    let directionals, light1, light2, light3, light4;
 
-    let light1 = new THREE.DirectionalLight(0xa0a0ff, 1.5);
+    light1 = new THREE.DirectionalLight(0xa0a0ff, 1.5);
     light1.position.set(25, 10, 0);
 
-    let light2 = new THREE.DirectionalLight(0xa0a0ff, 1.5);
+    light2 = new THREE.DirectionalLight(0xa0a0ff, 1.5);
     light2.position.set(0, 10, 25);
 
-    let light3 = new THREE.DirectionalLight(0xa0a0ff, 1.5);
+    light3 = new THREE.DirectionalLight(0xa0a0ff, 1.5);
     light3.position.set(-25, 10, 0);
 
-    let light4 = new THREE.DirectionalLight(0xa0a0ff, 1.5);
+    light4 = new THREE.DirectionalLight(0xa0a0ff, 1.5);
     light4.position.set(0, 10, -25);
 
-    directionals.add(light1);
-    directionals.add(light2);
-    directionals.add(light3);
-    directionals.add(light4);
+    directionals = new THREE.Group();
+    directionals.add(light1, light2, light3, light4);
 
     for (let i = 0; i < directionals.children.length; i++) {
       directionals.children[i].castShadow = true;
@@ -34,20 +32,21 @@ class Lights {
   }
 
   getSpotLights() {
-    let spotLights = new THREE.Group();
+    let spotLights, light1, light2, light3, light4;
 
-    let light1 = new THREE.SpotLight(0xffffff, 1, 0, 0.8);
+    light1 = new THREE.SpotLight(0xffffff, 1, 0, 0.8);
     light1.position.set(25, 10, 0);
 
-    let light2 = new THREE.SpotLight(0xffffff, 1, 0, 0.8);
+    light2 = new THREE.SpotLight(0xffffff, 1, 0, 0.8);
     light2.position.set(0, 10, 25);
 
-    let light3 = new THREE.SpotLight(0xffffff, 1, 0, 0.8);
+    light3 = new THREE.SpotLight(0xffffff, 1, 0, 0.8);
     light3.position.set(-25, 10, 0);
 
-    let light4 = new THREE.SpotLight(0xffffff, 1, 0, 0.8);
+    light4 = new THREE.SpotLight(0xffffff, 1, 0, 0.8);
     light4.position.set(0, 10, -25);
 
+    spotLights = new THREE.Group();
     spotLights.add(light1, light2, light3, light4);
 
     for (let i = 0; i < spotLights.children.length; i++) {

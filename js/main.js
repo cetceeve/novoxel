@@ -23,10 +23,6 @@ let tower, player, lights;
 tower = createTower(5);
 player = new Player();
 lights = new Lights();
-// let spotLights = getSpotLights();
-// let directionalLight = getDirectionalLights();
-// let hemisphereLight = getHemisphereLight();
-// let ambientLight = getAmbientLight();
 
 let rotateHori = 0,
   rotateVert = 0,
@@ -45,9 +41,9 @@ createObstacles(arrayA, 'd');
 tower.add(obstacles);
 
 scene.add(player.representation);
-// scene.add(lights.hemisphereLight);
 scene.add(lights.spotLights);
 scene.add(lights.ambientLight);
+// scene.add(lights.hemisphereLight);
 //scene.add(lights.directionalLight);
 scene.add(tower);
 scene.add(new THREE.AxesHelper());
@@ -71,7 +67,7 @@ function updatePlayer() {
   // Hitdetection
   let raycasterY = new THREE.Raycaster(player.representation.position.clone(), new THREE.Vector3(0, -1 * player.movementProperties.gravity, 0).normalize());
   let collisionResultsY = raycasterY.intersectObjects(tower.children, true);
-  if (collisionResultsY.length > 0 && collisionResultsY[0].distance < player.getYHitDetectionDistance()) {
+  if (collisionResultsY.length > 0 && collisionResultsY[0].distance < player.floatDistance) {
     gravityDistance = 0;
     player.movementProperties.gravity = player.movementProperties.gravityTarget;
     player.movementProperties.inAir = false;
