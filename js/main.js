@@ -1,15 +1,11 @@
 /*jshint unused: true */
-let scene, camera, renderer, clock, tower, player, lights;
+let scene, cam, renderer, clock, tower, player, lights;
 clock = new THREE.Clock();
 
 scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2(0xcccccc, 0.02);
 
-camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 30;
-camera.position.y = 10;
-camera.position.x = -5;
-camera.lookAt(scene.position);
+// camera
 
 renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.shadowMap.enabled = true;
@@ -19,11 +15,9 @@ renderer.localClippingEnabled = true;
 renderer.setSize(window.innerWidth * 0.8, window.innerHeight * 0.8);
 document.body.appendChild(renderer.domElement);
 
-let rotateHori = 0,
-  rotateVert = 0,
-  rotateSpeed = 0.05;
 /////////////////////////////////////
 // Objects
+cam = new Cam();
 tower = new Tower();
 player = new Player();
 lights = new Lights();
@@ -41,8 +35,8 @@ scene.add(new THREE.AxesHelper());
 var animate = function() {
   requestAnimationFrame(animate);
   updatePlayer();
-  updateCamera();
-  renderer.render(scene, camera);
+  cam.updateCamera();
+  renderer.render(scene, cam.camera);
 };
 animate();
 
@@ -78,21 +72,6 @@ function updatePlayer() {
   player.prop.updateGravity();
 }
 
-function updateCamera() {
-  if (rotateHori || rotateVert) {
-    let pos = camera.position.clone(),
-      horAxis = pos.clone();
-    horAxis.applyAxisAngle(new THREE.Vector3(0, 1, 0), 1.5708);
-    horAxis.y = 0;
-    horAxis.normalize();
-
-    pos.applyAxisAngle(horAxis, rotateHori);
-    pos.applyAxisAngle(new THREE.Vector3(0, 1, 0), rotateVert);
-    camera.position.copy(pos);
-    camera.lookAt(new THREE.Vector3(0, 0, 0));
-  }
-}
-
 /////////////////////////////////////
 // Input
 document.addEventListener("keydown", event => {
@@ -113,16 +92,16 @@ document.addEventListener("keydown", event => {
       player.prop.reverseGravity();
       break;
     case 65: // 'a'
-      rotateVert = -rotateSpeed;
+      cam.prop.rotateVert = -cam.prop.rotateSpeed;
       break;
     case 68: // 'd'
-      rotateVert = rotateSpeed;
+      cam.prop.rotateVert = cam.prop.rotateSpeed;
       break;
     case 87: // 'w'
-      rotateHori = -rotateSpeed;
+      cam.prop.rotateHori = -cam.prop.rotateSpeed;
       break;
     case 83: // 's'
-      rotateHori = rotateSpeed;
+      cam.prop.rotateHori = cam.prop.rotateSpeed;
       break;
   }
 }, false);
@@ -144,16 +123,16 @@ document.addEventListener("keyup", event => {
     case 32: // space {
       break;
     case 65: // 'a'
-      rotateVert = 0;
+      cam.prop.rotateVert = 0;
       break;
     case 68: // 'd'
-      rotateVert = 0;
+      cam.prop.rotateVert = 0;
       break;
     case 87: // 'w'
-      rotateHori = 0;
+      cam.prop.rotateHori = 0;
       break;
     case 83: // 's'
-      rotateHori = 0;
+      cam.prop.rotateHori = 0;
       break;
   }
 }, false);

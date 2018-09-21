@@ -7,6 +7,7 @@
     "Player": false,
     "Lights": false,
     "Tower": false,
+    "Cam": false,
     "MAP": true
   },
 
