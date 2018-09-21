@@ -3,9 +3,7 @@ let scene, cam, renderer, clock, tower, player, lights;
 clock = new THREE.Clock();
 
 scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0xcccccc, 0.02);
-
-// camera
+// scene.fog = new THREE.FogExp2(0xcccccc, 0.02); // not working
 
 renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.shadowMap.enabled = true;
@@ -19,8 +17,8 @@ document.body.appendChild(renderer.domElement);
 // Objects
 cam = new Cam();
 tower = new Tower();
-player = new Player();
 lights = new Lights();
+player = new Player();
 
 scene.add(player.representation);
 scene.add(lights.spotLights);
@@ -34,8 +32,8 @@ scene.add(new THREE.AxesHelper());
 // animation
 var animate = function() {
   requestAnimationFrame(animate);
-  updatePlayer();
   cam.updateCamera();
+  updatePlayer();
   renderer.render(scene, cam.camera);
 };
 animate();

@@ -38,8 +38,8 @@ class Lights {
       intensity: 1,
       distance: 0,
       angle: 0.8,
-      posHeight: 10,
-      posSpacing: 25
+      posHeight: 100,
+      posSpacing: 250
     };
 
     light1 = new THREE.SpotLight(prop.color, prop.intensity, prop.distnance, prop.angle);

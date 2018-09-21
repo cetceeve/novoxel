@@ -1,8 +1,8 @@
 class Tower {
   constructor() {
     this.prop = {
-      width: 2.5,
-      height: 0.5,
+      width: 25,
+      height: 5,
       color: 0x424242,
       columns: 4,
       rows: 5

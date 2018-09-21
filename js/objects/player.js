@@ -1,16 +1,16 @@
 class Player {
   constructor() {
     this.prop = {
-      dimension: 0.5,
-      floatingDistance: 0.6,
+      dimension: 5,
+      floatingDistance: 6,
       movementVector: new THREE.Vector3(0, 0, 0),
       inAir: true,
-      gravityTarget: 10,
-      gravity: 10,
-      movementSpeed: 4,
+      gravityTarget: 100,
+      gravity: 100,
+      movementSpeed: 50,
       updateGravity: function() {
         if (this.gravity < this.gravityTarget) {
-          this.gravity += 0.3;
+          this.gravity += 5;
         }
       },
       reverseGravity: function() {
@@ -56,8 +56,8 @@ class Player {
       playerRep.children[i].receiveShadow = true;
     }
 
-    playerRep.position.set(-10, 15, 12); // Startposition
-    playerRep.children[0].material.clippingPlanes[0].constant = 15;
+    playerRep.position.set(-100, 150, 120); // Startposition
+    playerRep.children[0].material.clippingPlanes[0].constant = 150;
     return playerRep;
   }
 

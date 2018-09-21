@@ -3,8 +3,8 @@ class Cam {
     this.prop = {
       fov: 60,
       posX: 0,
-      posY: 12,
-      posZ: 25,
+      posY: 120,
+      posZ: 250,
       rotateSpeed: 0.05,
       rotateHori: 0,
       rotateVert: 0
