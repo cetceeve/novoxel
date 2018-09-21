@@ -11,6 +11,19 @@ class Tower {
   }
 
   createTower(prop) {
+    let tower = this.createBaseTower(prop),
+      obstacles = new THREE.Group();
+
+    obstacles.add(this.createObstacles(prop, MAP.arrayA, 'a'));
+    obstacles.add(this.createObstacles(prop, MAP.arrayB, 'b'));
+    obstacles.add(this.createObstacles(prop, MAP.arrayC, 'c'));
+    obstacles.add(this.createObstacles(prop, MAP.arrayD, 'd'));
+
+    tower.add(obstacles);
+    return tower;
+  }
+
+  createBaseTower(prop) {
     let bricks = new THREE.Group();
     for (let k = 0; k < prop.rows; k++) {
       for (let i = -prop.columns; i <= prop.columns; i++) {
@@ -40,13 +53,59 @@ class Tower {
     //return line;
   }
 
-  getObstacle() {
-    let protoBox = new THREE.Mesh(
+  createObstacles(prop, array, side) {
+    let obstacle, obstacles = new THREE.Group();
+    for (let i = 0; i < array.length; i++) {
+      for (let j = 0; j < array[i].length; j++) {
+        if (array[i][j] !== 0) {
+          obstacle = this.selectObstacle(array[i][j]);
+          switch (side) {
+            case 'a':
+              obstacle.position.z = (prop.columns + 1) * prop.width;
+              obstacle.position.x = -prop.columns * prop.width + j * prop.width;
+              break;
+            case 'b':
+              obstacle.position.z = prop.columns * prop.width - j * prop.width;
+              obstacle.position.x = (prop.columns + 1) * prop.width;
+              break;
+            case 'c':
+              obstacle.position.z = -(prop.columns + 1) * prop.width;
+              obstacle.position.x = prop.columns * prop.width - j * prop.width;
+              break;
+            case 'd':
+              obstacle.position.z = -prop.columns * prop.width + j * prop.width;
+              obstacle.position.x = -(prop.columns + 1) * prop.width;
+              break;
+            default:
+              break;
+          }
+          obstacle.position.y = i * prop.width - 1;
+
+          obstacles.add(obstacle);
+        } else {
+          continue;
+        }
+      }
+    }
+    return obstacles;
+  }
+
+  selectObstacle(n) {
+    switch (n) {
+      case 1:
+        return this.createObstacle();
+      default:
+        break;
+    }
+  }
+
+  createObstacle() {
+    let obstacle = new THREE.Mesh(
       new THREE.BoxBufferGeometry(this.prop.width, this.prop.height, this.prop.width),
       new THREE.MeshPhongMaterial({ color: this.prop.color })
     );
-    protoBox.receiveShadow = true;
-    protoBox.castShadow = true;
-    return protoBox;
+    obstacle.receiveShadow = true;
+    obstacle.castShadow = true;
+    return obstacle;
   }
 }

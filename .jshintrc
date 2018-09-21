@@ -6,7 +6,8 @@
     "THREE": false,
     "Player": false,
     "Lights": false,
-    "Tower": false
+    "Tower": false,
+    "MAP": true
   },
 
   "undef": true,

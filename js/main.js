@@ -1,8 +1,7 @@
 /*jshint unused: true */
-/*jshint undef: true */
 let scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2(0xcccccc, 0.02);
-let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+let camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.z = 30;
 camera.position.y = 10;
 camera.position.x = -5;
@@ -27,18 +26,6 @@ lights = new Lights();
 let rotateHori = 0,
   rotateVert = 0,
   rotateSpeed = 0.05;
-
-let arrayA = [
-    [1, 0, 1, 0, 1, 0, 1, 0, 1],
-    [0, 1, 0, 1, 0, 1, 0, 1, 0]
-  ],
-  obstacles = new THREE.Group();
-createObstacles(arrayA, 'a');
-createObstacles(arrayA, 'b');
-createObstacles(arrayA, 'c');
-createObstacles(arrayA, 'd');
-
-tower.representation.add(obstacles);
 
 scene.add(player.representation);
 scene.add(lights.spotLights);
@@ -171,49 +158,3 @@ document.addEventListener("keyup", event => {
       break;
   }
 }, false);
-
-///////////////////////////////////////////////
-// Obstacles
-function createObstacles(array, seite) {
-  for (let i = 0; i < array.length; i++) {
-    for (let j = 0; j < array[0].length; j++) {
-      if (array[i][j] !== 0) {
-        let obstacle = selectCube(array[i][j]);
-        switch (seite) {
-          case 'a':
-            obstacle.position.z = 12.5;
-            obstacle.position.x = -10 + j * 2.5;
-            break;
-          case 'b':
-            obstacle.position.z = 10 - j * 2.5;
-            obstacle.position.x = 12.5;
-            break;
-          case 'c':
-            obstacle.position.z = -12.5;
-            obstacle.position.x = 10 - j * 2.5;
-            break;
-          case 'd':
-            obstacle.position.z = -10 + j * 2.5;
-            obstacle.position.x = -12.5;
-            break;
-          default:
-            break;
-        }
-        obstacle.position.y = i * 2.5 - 1;
-
-        obstacles.add(obstacle);
-      } else {
-        continue;
-      }
-    }
-  }
-}
-
-function selectCube(n) {
-  switch (n) {
-    case 1:
-      return tower.getObstacle();
-    default:
-      break;
-  }
-}
