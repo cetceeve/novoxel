@@ -41,4 +41,10 @@ class Cam {
       this.camera.lookAt(new THREE.Vector3(0, 0, 0));
     }
   }
+
+  bindTo(subscribable) {
+    subscribable.subscribeToPosUpdates((pos) => {
+      this.camera.lookAt(pos);
+    });
+  }
 }

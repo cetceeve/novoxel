@@ -20,6 +20,8 @@ tower = new Tower();
 lights = new Lights();
 player = new Player();
 
+cam.bindTo(player);
+
 scene.add(player.representation);
 // scene.add(lights.spotLights);
 scene.add(lights.ambientLight);

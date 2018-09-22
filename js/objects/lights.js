@@ -94,22 +94,9 @@ class Lights {
   }
 
   getPlayerBoundSpotlight(cam, player) {
-    let spotLight, prop;
-    prop = {
-      color: 0xffffff,
-      intensity: 1,
-      distance: 0,
-      angle: 0.8
-    };
-
-    spotLight = this.getCameraBoundSpotlight(cam);
-    spotLight.lookAt(new THREE.Vector3(player.representation.position.x, player.representation.position.y, player.representation.position.z));
-
-    player.subscribeToPosUpdates((pos) => {
-      spotLight.lookAt(pos); // update light lookAt
-      console.log(pos.x, pos.y, pos.z);
-    });
-
+    let spotLight = this.getCameraBoundSpotlight(cam);
+    spotLight.angle = 0.5;
+    spotLight.target = player.representation;
     return spotLight;
   }
 }
