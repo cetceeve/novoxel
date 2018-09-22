@@ -8,9 +8,9 @@ class Player {
       gravityTarget: 100,
       gravity: 100,
       movementSpeed: 50,
-      updateGravity: function() {
+      updateGravity: function(clockSpeed) {
         if (this.gravity < this.gravityTarget) {
-          this.gravity += 5;
+          this.gravity += 200 * clockSpeed;
         }
       },
       reverseGravity: function() {

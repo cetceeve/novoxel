@@ -67,7 +67,7 @@ function updatePlayer() {
   player.updatePosition(gravityDistance, moveDistance);
 
   // update gravity
-  player.prop.updateGravity();
+  player.prop.updateGravity(clockSpeed);
 }
 
 /////////////////////////////////////
