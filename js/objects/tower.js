@@ -7,6 +7,7 @@ class Tower {
       columns: 4,
       rows: 5
     };
+    this.obstacles = null;
     this.representation = this.createTower(this.prop);
   }
 
@@ -19,6 +20,7 @@ class Tower {
     obstacles.add(this.createObstacles(prop, MAP.arrayC, 'c'));
     obstacles.add(this.createObstacles(prop, MAP.arrayD, 'd'));
 
+    this.obstacles = obstacles;
     tower.add(obstacles);
     return tower;
   }
