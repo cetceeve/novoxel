@@ -21,11 +21,12 @@ lights = new Lights();
 player = new Player();
 
 scene.add(player.representation);
-scene.add(lights.spotLights);
+// scene.add(lights.spotLights);
 scene.add(lights.ambientLight);
 // scene.add(lights.hemisphereLight);
 // scene.add(lights.directionalLight);
 scene.add(tower.representation);
+scene.add(lights.getPlayerBoundSpotlight(cam, player));
 scene.add(new THREE.AxesHelper());
 
 ////////////////////////////////////

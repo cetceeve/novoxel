@@ -71,4 +71,45 @@ class Lights {
   getAmbientLight() {
     return new THREE.AmbientLight(0xffffff, 0.2);
   }
+
+  getCameraBoundSpotlight(cam) {
+    let spotLight, prop;
+    prop = {
+      color: 0xffffff,
+      intensity: 1,
+      distance: 0,
+      angle: 0.8
+    };
+
+    spotLight = new THREE.SpotLight(prop.color, prop.intensity, prop.distnance, prop.angle);
+    spotLight.position.set(cam.camera.position.x, cam.camera.position.y, cam.camera.position.z);
+    spotLight.castShadow = true;
+    spotLight.lookAt(new THREE.Vector3(0, 0, 0));
+
+    cam.subscribeToPosUpdates((pos) => {
+      spotLight.position.set(pos.x, pos.y, pos.z); // update light position
+    });
+
+    return spotLight;
+  }
+
+  getPlayerBoundSpotlight(cam, player) {
+    let spotLight, prop;
+    prop = {
+      color: 0xffffff,
+      intensity: 1,
+      distance: 0,
+      angle: 0.8
+    };
+
+    spotLight = this.getCameraBoundSpotlight(cam);
+    spotLight.lookAt(new THREE.Vector3(player.representation.position.x, player.representation.position.y, player.representation.position.z));
+
+    player.subscribeToPosUpdates((pos) => {
+      spotLight.lookAt(pos); // update light lookAt
+      console.log(pos.x, pos.y, pos.z);
+    });
+
+    return spotLight;
+  }
 }

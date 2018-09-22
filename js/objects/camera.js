@@ -10,6 +10,11 @@ class Cam {
       rotateVert: 0
     };
     this.camera = this.getCamera();
+    this.posCallback = null; // to be injected
+  }
+
+  subscribeToPosUpdates(callback) {
+    this.posCallback = callback;
   }
 
   getCamera() {
@@ -31,6 +36,7 @@ class Cam {
 
       pos.applyAxisAngle(horAxis, this.prop.rotateHori);
       pos.applyAxisAngle(new THREE.Vector3(0, 1, 0), this.prop.rotateVert);
+      this.posCallback(pos);
       this.camera.position.copy(pos);
       this.camera.lookAt(new THREE.Vector3(0, 0, 0));
     }

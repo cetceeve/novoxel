@@ -21,6 +21,11 @@ class Player {
       }
     };
     this.representation = this.getRepresentation();
+    this.posCallback = null; // to be injected
+  }
+
+  subscribeToPosUpdates(callback) {
+    this.posCallback = callback;
   }
 
   getRepresentation() {
@@ -76,5 +81,6 @@ class Player {
     if (this.prop.movementVector.x > 0) { // move right
       this.representation.position.x += moveDistance;
     }
+    this.posCallback(new THREE.Vector3(this.representation.position.x, this.representation.position.y, this.representation.position.z));
   }
 }
