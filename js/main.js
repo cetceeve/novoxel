@@ -60,7 +60,7 @@ function updatePlayer() {
 
   if (player.prop.movementVector.z !== 0 || player.prop.movementVector.x !== 0) {
     let raycasterXZ = new THREE.Raycaster(player.representation.position.clone(), player.prop.movementVector);
-    let collisionResultsXY = raycasterXZ.intersectObjects(tower.representation.children, false);
+    let collisionResultsXY = raycasterXZ.intersectObjects(tower.representation.children, true);
     if (collisionResultsXY.length > 0 && collisionResultsXY[0].distance < player.prop.dimension) {
       moveDistance = 0;
     }

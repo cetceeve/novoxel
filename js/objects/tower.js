@@ -81,7 +81,7 @@ class Tower {
             default:
               break;
           }
-          obstacle.position.y = i * prop.width - 1;
+          obstacle.position.y = ((MAP.arrayA.length - i - 1) * prop.width);
 
           obstacles.add(obstacle);
         } else {
@@ -103,7 +103,7 @@ class Tower {
 
   createObstacle() {
     let obstacle = new THREE.Mesh(
-      new THREE.BoxBufferGeometry(this.prop.width, this.prop.height, this.prop.width),
+      new THREE.BoxBufferGeometry(this.prop.width, this.prop.width, this.prop.width),
       new THREE.MeshPhongMaterial({ color: this.prop.color })
     );
     obstacle.receiveShadow = true;
