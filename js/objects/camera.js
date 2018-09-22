@@ -36,9 +36,8 @@ class Cam {
 
       pos.applyAxisAngle(horAxis, this.prop.rotateHori);
       pos.applyAxisAngle(new THREE.Vector3(0, 1, 0), this.prop.rotateVert);
-      this.posCallback(pos);
       this.camera.position.copy(pos);
-      this.camera.lookAt(new THREE.Vector3(0, 0, 0));
+      this.posCallback(pos);
     }
   }
 

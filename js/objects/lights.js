@@ -75,16 +75,15 @@ class Lights {
   getCameraBoundSpotlight(cam) {
     let spotLight, prop;
     prop = {
-      color: 0xffffff,
+      color: 0xe5d0a5,
       intensity: 1,
       distance: 0,
-      angle: 0.8
+      angle: 0.35
     };
 
     spotLight = new THREE.SpotLight(prop.color, prop.intensity, prop.distnance, prop.angle);
     spotLight.position.set(cam.camera.position.x, cam.camera.position.y, cam.camera.position.z);
     spotLight.castShadow = true;
-    spotLight.lookAt(new THREE.Vector3(0, 0, 0));
 
     cam.subscribeToPosUpdates((pos) => {
       spotLight.position.set(pos.x, pos.y, pos.z); // update light position
@@ -93,9 +92,8 @@ class Lights {
     return spotLight;
   }
 
-  getPlayerBoundSpotlight(cam, player) {
+  getPlayerSpotlight(cam, player) {
     let spotLight = this.getCameraBoundSpotlight(cam);
-    spotLight.angle = 0.5;
     spotLight.target = player.representation;
     return spotLight;
   }

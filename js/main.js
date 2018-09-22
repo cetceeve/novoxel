@@ -28,7 +28,7 @@ scene.add(lights.ambientLight);
 // scene.add(lights.hemisphereLight);
 // scene.add(lights.directionalLight);
 scene.add(tower.representation);
-scene.add(lights.getPlayerBoundSpotlight(cam, player));
+scene.add(lights.getPlayerSpotlight(cam, player));
 scene.add(new THREE.AxesHelper());
 
 ////////////////////////////////////
