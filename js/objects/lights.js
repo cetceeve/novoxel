@@ -73,8 +73,7 @@ class Lights {
   }
 
   getCameraBoundSpotlight(cam) {
-    let spotLight, prop;
-    prop = {
+    let spotLight, prop = {
       color: 0xe5d0a5,
       intensity: 1,
       distance: 0,
@@ -85,7 +84,7 @@ class Lights {
     spotLight.position.set(cam.camera.position.x, cam.camera.position.y, cam.camera.position.z);
     spotLight.castShadow = true;
 
-    cam.subscribeToPosUpdates((pos) => {
+    cam.observePosUpdates((pos) => {
       spotLight.position.set(pos.x, pos.y, pos.z); // update light position
     });
 

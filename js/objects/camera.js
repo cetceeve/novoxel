@@ -10,10 +10,9 @@ class Cam {
       rotateVert: 0
     };
     this.camera = this.getCamera();
-    this.posCallback = null; // to be injected
   }
 
-  subscribeToPosUpdates(callback) {
+  observePosUpdates(callback) {
     this.posCallback = callback;
   }
 
@@ -37,13 +36,20 @@ class Cam {
       pos.applyAxisAngle(horAxis, this.prop.rotateHori);
       pos.applyAxisAngle(new THREE.Vector3(0, 1, 0), this.prop.rotateVert);
       this.camera.position.copy(pos);
-      this.posCallback(pos);
+      if (this.posCallback !== undefined) {
+        this.posCallback(pos);
+      }
+      this.lookAt();
     }
   }
 
-  bindTo(subscribable) {
-    subscribable.subscribeToPosUpdates((pos) => {
-      this.camera.lookAt(pos);
-    });
+  lookAt(subscribable) {
+    if (subscribable !== undefined) {
+      subscribable.observePosUpdates((pos) => {
+        this.camera.lookAt(pos);
+      });
+    } else {
+      this.camera.lookAt(new THREE.Vector3(0, 0, 0));
+    }
   }
 }
