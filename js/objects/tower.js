@@ -7,60 +7,27 @@ class Tower {
       columns: 4,
       rows: 5
     };
-    this.obstacles = null;
     this.representation = this.createTower(this.prop);
   }
 
   createTower(prop) {
-    let tower = this.createBaseTower(prop),
-      obstacles = new THREE.Group();
+    let tower = new THREE.Group();
 
-    obstacles.add(this.createObstacles(prop, MAP.arrayA, 'a'));
-    obstacles.add(this.createObstacles(prop, MAP.arrayB, 'b'));
-    obstacles.add(this.createObstacles(prop, MAP.arrayC, 'c'));
-    obstacles.add(this.createObstacles(prop, MAP.arrayD, 'd'));
+    tower.add(this.createObstacles(prop, MAP.arrayA, 'a'));
+    tower.add(this.createObstacles(prop, MAP.arrayB, 'b'));
+    tower.add(this.createObstacles(prop, MAP.arrayC, 'c'));
+    tower.add(this.createObstacles(prop, MAP.arrayD, 'd'));
 
-    this.obstacles = obstacles;
-    tower.add(obstacles);
     return tower;
   }
 
-  createBaseTower(prop) {
-    let bricks = new THREE.Group();
-    for (let k = 0; k < prop.rows; k++) {
-      for (let i = -prop.columns; i <= prop.columns; i++) {
-        for (let j = -prop.columns; j <= prop.columns; j++) {
-          if ((j === -prop.columns || j === prop.columns) || (i === -prop.columns || i === prop.columns)) {
-            bricks.add(this.createBrick(prop.width * i, prop.width * k, prop.width * j));
-          }
-        }
-      }
-    }
-    return bricks;
-  }
-
-  createBrick(x, y, z) {
-    let brick = new THREE.Mesh(
-      new THREE.BoxBufferGeometry(this.prop.width, this.prop.width, this.prop.width),
-      new THREE.MeshPhongMaterial({ color: this.prop.color })
-    );
-    /*let edges = new THREE.EdgesGeometry(geometry);
-    let line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({color: 0xffffff}));*/
-    brick.receiveShadow = true;
-    brick.castShadow = true;
-    brick.position.x = x;
-    brick.position.y = y;
-    brick.position.z = z;
-    return brick;
-    //return line;
-  }
-
+  /*
   createObstacles(prop, array, side) {
     let obstacle, obstacles = new THREE.Group();
     for (let i = 0; i < array.length; i++) {
       for (let j = 0; j < array[i].length; j++) {
+        obstacle = this.selectObstacle(array[i][j]);
         if (array[i][j] !== 0) {
-          obstacle = this.selectObstacle(array[i][j]);
           switch (side) {
             case 'a':
               obstacle.position.z = (prop.columns + 1) * prop.width;
@@ -82,14 +49,63 @@ class Tower {
               break;
           }
           obstacle.position.y = ((MAP.arrayA.length - i - 1) * prop.width);
-
-          obstacles.add(obstacle);
         } else {
-          continue;
+          switch (side) {
+            case 'a':
+              obstacle.position.z = (prop.columns) * prop.width;
+              obstacle.position.x = -prop.columns * prop.width + j * prop.width;
+              break;
+            case 'b':
+              obstacle.position.z = prop.columns * prop.width - j * prop.width;
+              obstacle.position.x = (prop.columns) * prop.width;
+              break;
+            case 'c':
+              obstacle.position.z = -(prop.columns) * prop.width;
+              obstacle.position.x = prop.columns * prop.width - j * prop.width;
+              break;
+            case 'd':
+              obstacle.position.z = -prop.columns * prop.width + j * prop.width;
+              obstacle.position.x = -(prop.columns) * prop.width;
+              break;
+            default:
+              break;
+          }
+          obstacle.position.y = ((MAP.arrayA.length - i - 1) * prop.width);
         }
+        obstacles.add(obstacle);
       }
     }
     return obstacles;
+  }
+  */
+
+  createObstacles(prop, array, side) {
+    let obstacle, obstacles = new THREE.Group();
+    for (let i = 0; i < array.length; i++) {
+      for (let j = 0; j < array[i].length; j++) {
+        obstacle = this.selectObstacle(array[i][j]);
+        switch (side) {
+          case 'a':
+            obstacle.position.z = prop.columns * prop.width;
+            obstacle.position.x = -prop.columns * prop.width + j * prop.width;
+            break;
+          case 'b':
+            obstacle.position.z = prop.columns * prop.width - j * prop.width;
+            obstacle.position.x = prop.columns * prop.width;
+            break;
+          case 'c':
+            obstacle.position.z = -prop.columns * prop.width;
+            obstacle.position.x = prop.columns * prop.width - j * prop.width;
+            break;
+          case 'd':
+            obstacle.position.z = -prop.columns * prop.width + j * prop.width;
+            obstacle.position.x = -prop.columns * prop.width;
+            break;
+          default:
+            break;
+        }
+      }
+    }
   }
 
   selectObstacle(n) {
@@ -97,7 +113,7 @@ class Tower {
       case 1:
         return this.createObstacle();
       default:
-        break;
+        return this.createObstacle();
     }
   }
 

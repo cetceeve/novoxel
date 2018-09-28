@@ -49,7 +49,7 @@ function updatePlayer() {
 
   // Hitdetections
   let raycasterY = new THREE.Raycaster(player.representation.position.clone(), new THREE.Vector3(0, -1 * player.prop.gravity, 0).normalize());
-  let collisionResultsY = raycasterY.intersectObjects(tower.obstacles.children, true);
+  let collisionResultsY = raycasterY.intersectObjects(tower.representation.children, true);
   if (collisionResultsY.length > 0 && collisionResultsY[0].distance < player.prop.floatingDistance) {
     gravityDistance = 0;
     player.prop.gravity = player.prop.gravityTarget;
