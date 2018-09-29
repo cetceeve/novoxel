@@ -1,3 +1,5 @@
+const brickNum = 0;
+
 class Tower {
   constructor() {
     this.prop = {
@@ -86,26 +88,29 @@ class Tower {
         obstacle = this.selectObstacle(array[i][j]);
         switch (side) {
           case 'a':
-            obstacle.position.z = prop.columns * prop.width;
-            obstacle.position.x = -prop.columns * prop.width + j * prop.width;
+            obstacle.representation.position.z = (prop.columns + obstacle.offset) * prop.width;
+            obstacle.representation.position.x = -prop.columns * prop.width + j * prop.width;
             break;
           case 'b':
-            obstacle.position.z = prop.columns * prop.width - j * prop.width;
-            obstacle.position.x = prop.columns * prop.width;
+            obstacle.representation.position.z = prop.columns * prop.width - j * prop.width;
+            obstacle.representation.position.x = (prop.columns + obstacle.offset) * prop.width;
             break;
           case 'c':
-            obstacle.position.z = -prop.columns * prop.width;
-            obstacle.position.x = prop.columns * prop.width - j * prop.width;
+            obstacle.representation.position.z = -(prop.columns + obstacle.offset) * prop.width;
+            obstacle.representation.position.x = prop.columns * prop.width - j * prop.width;
             break;
           case 'd':
-            obstacle.position.z = -prop.columns * prop.width + j * prop.width;
-            obstacle.position.x = -prop.columns * prop.width;
+            obstacle.representation.position.z = -prop.columns * prop.width + j * prop.width;
+            obstacle.representation.position.x = -(prop.columns + obstacle.offset) * prop.width;
             break;
           default:
             break;
         }
+        obstacle.representation.position.y = ((MAP.arrayA.length - i - 1) * prop.width);
+        obstacles.add(obstacle.representation);
       }
     }
+    return obstacles;
   }
 
   selectObstacle(n) {
@@ -113,17 +118,31 @@ class Tower {
       case 1:
         return this.createObstacle();
       default:
-        return this.createObstacle();
+        return this.createTowerWall();
     }
   }
 
+  createTowerWall() {
+    return {
+      representation: this.createBrick(),
+      offset: 0
+    };
+  }
+
   createObstacle() {
-    let obstacle = new THREE.Mesh(
+    return {
+      representation: this.createBrick(),
+      offset: 1
+    };
+  }
+
+  createBrick() {
+    let brick = new THREE.Mesh(
       new THREE.BoxBufferGeometry(this.prop.width, this.prop.width, this.prop.width),
       new THREE.MeshPhongMaterial({ color: this.prop.color })
     );
-    obstacle.receiveShadow = true;
-    obstacle.castShadow = true;
-    return obstacle;
+    brick.receiveShadow = true;
+    brick.castShadow = true;
+    return brick;
   }
 }
