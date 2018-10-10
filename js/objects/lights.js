@@ -69,7 +69,7 @@ class Lights {
   }
 
   getAmbientLight() {
-    return new THREE.AmbientLight(0xffffff, 0.2);
+    return new THREE.AmbientLight(0xffffff, 0.4);
   }
 
   getCameraBoundSpotlight(cam) {
@@ -77,7 +77,7 @@ class Lights {
       color: 0xe5d0a5,
       intensity: 1,
       distance: 0,
-      angle: 0.55
+      angle: 0.50
     };
 
     spotLight = new THREE.SpotLight(prop.color, prop.intensity, prop.distnance, prop.angle);
@@ -89,6 +89,25 @@ class Lights {
     });
 
     return spotLight;
+  }
+
+  getCameraBoundPointLight(cam) {
+    let pointlight, prop = {
+      color: 0xe5d0a5,
+      intensity: 1,
+      distance: 0,
+      decay: 2
+    };
+
+    pointlight = new THREE.PointLight(prop.color, prop.intensity, prop.distance, prop.decay);
+    pointlight.position.set(cam.camera.position.x, cam.camera.position.y, cam.camera.position.z);
+    pointlight.castShadow = true;
+
+    cam.observePosUpdates((pos) => {
+      pointlight.position.set(pos.x, pos.y, pos.z); // update light position
+    });
+
+    return pointlight;
   }
 
   getPlayerSpotlight(cam, player) {

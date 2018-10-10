@@ -1,4 +1,3 @@
-/*jshint unused: true */
 let scene, cam, renderer, clock, tower, player, lights;
 clock = new THREE.Clock();
 
@@ -23,12 +22,13 @@ player = new Player();
 cam.lookAt(player);
 
 scene.add(player.representation);
-// scene.add(lights.spotLights);
 scene.add(lights.ambientLight);
+scene.add(tower.representation);
 // scene.add(lights.hemisphereLight);
 // scene.add(lights.directionalLight);
-scene.add(tower.representation);
-scene.add(lights.getPlayerSpotlight(cam, player));
+// scene.add(lights.spotLights);
+// scene.add(lights.getPlayerSpotlight(cam, player));
+scene.add(lights.getCameraBoundPointLight(cam));
 scene.add(new THREE.AxesHelper());
 
 ////////////////////////////////////
@@ -54,6 +54,7 @@ function updatePlayer() {
     gravityDistance = 0;
     player.prop.gravity = player.prop.gravityTarget;
     player.prop.inAir = false;
+    cam.updateHeight(collisionResultsY[0].point.y);
   } else {
     player.prop.inAir = true;
   }

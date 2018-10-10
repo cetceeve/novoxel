@@ -6,7 +6,7 @@ class Tower {
       width: 25,
       height: 5,
       color: 0x424242,
-      columns: (MAP.arrayA[0].length - 1) / 2
+      columns: (MAP.arrayA[0].length - 2) / 2
     };
     this.representation = this.createTower(this.prop);
   }
@@ -19,6 +19,7 @@ class Tower {
     tower.add(this.createObstacles(prop, MAP.arrayC, 'c'));
     tower.add(this.createObstacles(prop, MAP.arrayD, 'd'));
     tower.add(this.createGround());
+    tower.add(this.createCover());
 
     return tower;
   }
@@ -97,5 +98,16 @@ class Tower {
     ground.rotateX(1.57 * 3);
     ground.position.y = -this.prop.width / 2;
     return ground;
+  }
+
+  createCover() {
+    let cover = new THREE.Mesh(
+      new THREE.PlaneBufferGeometry((MAP.arrayA[0].length - 1) * this.prop.width, (MAP.arrayA[0].length - 1) * this.prop.width),
+      new THREE.MeshPhongMaterial({ color: this.prop.color })
+    );
+    cover.receiveShadow = true;
+    cover.rotateX(1.57 * 3);
+    cover.position.y = (MAP.arrayA.length - 1) * this.prop.width + this.prop.width / 2;
+    return cover;
   }
 }
