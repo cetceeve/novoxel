@@ -74,7 +74,7 @@ function updatePlayer() {
 }
 
 /////////////////////////////////////
-// Input
+// Eventlistener
 document.addEventListener("keydown", event => {
   switch (event.keyCode) {
     case 38: // toward
@@ -137,3 +137,11 @@ document.addEventListener("keyup", event => {
       break;
   }
 }, false);
+
+window.addEventListener('resize', onWindowResize, false);
+
+function onWindowResize() {
+  cam.camera.aspect = window.innerWidth / window.innerHeight;
+  cam.camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth * 0.8, window.innerHeight * 0.8);
+}

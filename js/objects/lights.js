@@ -77,7 +77,7 @@ class Lights {
       color: 0xe5d0a5,
       intensity: 1,
       distance: 0,
-      angle: 0.35
+      angle: 0.55
     };
 
     spotLight = new THREE.SpotLight(prop.color, prop.intensity, prop.distnance, prop.angle);
