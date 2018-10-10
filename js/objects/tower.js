@@ -18,6 +18,7 @@ class Tower {
     tower.add(this.createObstacles(prop, MAP.arrayB, 'b'));
     tower.add(this.createObstacles(prop, MAP.arrayC, 'c'));
     tower.add(this.createObstacles(prop, MAP.arrayD, 'd'));
+    tower.add(this.createGround());
 
     return tower;
   }
@@ -85,5 +86,16 @@ class Tower {
     brick.receiveShadow = true;
     brick.castShadow = true;
     return brick;
+  }
+
+  createGround() {
+    let ground = new THREE.Mesh(
+      new THREE.PlaneBufferGeometry(600, 600),
+      new THREE.MeshPhongMaterial({ color: 0x35682d })
+    );
+    ground.receiveShadow = true;
+    ground.rotateX(1.57 * 3);
+    ground.position.y = -this.prop.width / 2;
+    return ground;
   }
 }
