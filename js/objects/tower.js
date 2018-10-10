@@ -6,8 +6,7 @@ class Tower {
       width: 25,
       height: 5,
       color: 0x424242,
-      columns: 4,
-      rows: 5
+      columns: (MAP.arrayA[0].length - 1) / 2
     };
     this.representation = this.createTower(this.prop);
   }
@@ -22,64 +21,6 @@ class Tower {
 
     return tower;
   }
-
-  /*
-  createObstacles(prop, array, side) {
-    let obstacle, obstacles = new THREE.Group();
-    for (let i = 0; i < array.length; i++) {
-      for (let j = 0; j < array[i].length; j++) {
-        obstacle = this.selectObstacle(array[i][j]);
-        if (array[i][j] !== 0) {
-          switch (side) {
-            case 'a':
-              obstacle.position.z = (prop.columns + 1) * prop.width;
-              obstacle.position.x = -prop.columns * prop.width + j * prop.width;
-              break;
-            case 'b':
-              obstacle.position.z = prop.columns * prop.width - j * prop.width;
-              obstacle.position.x = (prop.columns + 1) * prop.width;
-              break;
-            case 'c':
-              obstacle.position.z = -(prop.columns + 1) * prop.width;
-              obstacle.position.x = prop.columns * prop.width - j * prop.width;
-              break;
-            case 'd':
-              obstacle.position.z = -prop.columns * prop.width + j * prop.width;
-              obstacle.position.x = -(prop.columns + 1) * prop.width;
-              break;
-            default:
-              break;
-          }
-          obstacle.position.y = ((MAP.arrayA.length - i - 1) * prop.width);
-        } else {
-          switch (side) {
-            case 'a':
-              obstacle.position.z = (prop.columns) * prop.width;
-              obstacle.position.x = -prop.columns * prop.width + j * prop.width;
-              break;
-            case 'b':
-              obstacle.position.z = prop.columns * prop.width - j * prop.width;
-              obstacle.position.x = (prop.columns) * prop.width;
-              break;
-            case 'c':
-              obstacle.position.z = -(prop.columns) * prop.width;
-              obstacle.position.x = prop.columns * prop.width - j * prop.width;
-              break;
-            case 'd':
-              obstacle.position.z = -prop.columns * prop.width + j * prop.width;
-              obstacle.position.x = -(prop.columns) * prop.width;
-              break;
-            default:
-              break;
-          }
-          obstacle.position.y = ((MAP.arrayA.length - i - 1) * prop.width);
-        }
-        obstacles.add(obstacle);
-      }
-    }
-    return obstacles;
-  }
-  */
 
   createObstacles(prop, array, side) {
     let obstacle, obstacles = new THREE.Group();

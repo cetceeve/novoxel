@@ -60,7 +60,7 @@ class Player {
       playerRep.children[i].receiveShadow = true;
     }
 
-    playerRep.position.set(-100, 150, 120); // Startposition
+    playerRep.position.set(-112, 150, 139); // Startposition
     playerRep.children[0].material.clippingPlanes[0].constant = 150;
     return playerRep;
   }
