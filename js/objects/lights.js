@@ -69,7 +69,7 @@ class Lights {
   }
 
   getAmbientLight() {
-    return new THREE.AmbientLight(0xffffff, 0.4);
+    return new THREE.AmbientLight(0xffffff, 0.6);
   }
 
   getCameraBoundSpotlight(cam) {
@@ -94,7 +94,7 @@ class Lights {
   getCameraBoundPointLight(cam) {
     let pointlight, prop = {
       color: 0xe5d0a5,
-      intensity: 1,
+      intensity: 0.6,
       distance: 0,
       decay: 2
     };
