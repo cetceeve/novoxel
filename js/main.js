@@ -84,10 +84,10 @@ document.addEventListener("keydown", event => {
     case 40: // away
       player.prop.movementVector.setZ(1);
       break;
-    case 37: // links
+    case 37: // left
       player.prop.movementVector.setX(-1);
       break;
-    case 39: // rechts
+    case 39: // right
       player.prop.movementVector.setX(1);
       break;
     case 32: // space {
@@ -99,12 +99,12 @@ document.addEventListener("keydown", event => {
     case 68: // 'd'
       cam.prop.rotateVert = cam.prop.rotateSpeed;
       break;
-    case 87: // 'w'
-      cam.prop.rotateHori = -cam.prop.rotateSpeed;
-      break;
-    case 83: // 's'
-      cam.prop.rotateHori = cam.prop.rotateSpeed;
-      break;
+      /* case 87: // 'w'
+        cam.prop.rotateHori = -cam.prop.rotateSpeed;
+        break;
+      case 83: // 's'
+        cam.prop.rotateHori = cam.prop.rotateSpeed;
+        break; */
   }
 }, false);
 
@@ -116,10 +116,10 @@ document.addEventListener("keyup", event => {
     case 40: // away
       player.prop.movementVector.setZ(0);
       break;
-    case 37: // links
+    case 37: // left
       player.prop.movementVector.setX(0);
       break;
-    case 39: // rechts
+    case 39: // right
       player.prop.movementVector.setX(0);
       break;
     case 32: // space {
@@ -130,12 +130,12 @@ document.addEventListener("keyup", event => {
     case 68: // 'd'
       cam.prop.rotateVert = 0;
       break;
-    case 87: // 'w'
-      cam.prop.rotateHori = 0;
-      break;
-    case 83: // 's'
-      cam.prop.rotateHori = 0;
-      break;
+      /* case 87: // 'w'
+        cam.prop.rotateHori = 0;
+        break;
+      case 83: // 's'
+        cam.prop.rotateHori = 0;
+        break; */
   }
 }, false);
 
