@@ -3,26 +3,26 @@
 <head>
   <meta charset="utf-8">
   <title>Prototype</title>
-  <style>
-    body {
-      margin: 0;
-      background-color: #2d3e50;
-    }
-
-    canvas {
-      padding: 0;
-      margin: auto;
-      display: block;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css?family=Chakra+Petch" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+  <img id="logo" src="assets/logo_novoxel.png" alt="Logo">
+  <div class="arrows">
+    <div class="up">
+      <img src="assets/arrow-up-icon.png" alt="Key Arrow up">
+    </div>
+    <img src="assets/arrow-left-icon.png" alt="Key Arrow left">
+    <img src="assets/arrow-down-icon.png" alt="Key Arrow down">
+    <img src="assets/arrow-right-icon.png" alt="Key Arrow right">
+  </div>
+  <p id="arrowKeys">Control the character!<br>Think around the corners!</p>
+  <div class="keys">
+    <img src="assets/A-icon.png" alt="Key A">
+    <img src="assets/D-icon.png" alt="">
+  </div>
+  <p id="letters">Control your view!</p>
 </body>
 
 <script src="js/three.js"></script>

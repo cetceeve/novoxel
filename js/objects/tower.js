@@ -92,7 +92,7 @@ class Tower {
   createGround() {
     let ground = new THREE.Mesh(
       new THREE.PlaneBufferGeometry(600, 600),
-      new THREE.MeshPhongMaterial({ color: 0x35682d })
+      new THREE.MeshPhongMaterial({ color: 0xecf0f1 })
     );
     ground.receiveShadow = true;
     ground.rotateX(1.57 * 3);
